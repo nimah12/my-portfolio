@@ -28,7 +28,7 @@ export default function Projects() {
             </div>
             <div className="flex gap-4 text-sm">
               {project.demoUrl && (
-                
+                <a
                   href={project.demoUrl}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -38,7 +38,7 @@ export default function Projects() {
                 </a>
               )}
               {project.githubUrl && (
-                
+                <a
                   href={project.githubUrl}
                   target="_blank"
                   rel="noopener noreferrer"
