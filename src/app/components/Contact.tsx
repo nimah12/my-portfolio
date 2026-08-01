@@ -1,14 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useApp } from "../providers";
 
 export default function Contact() {
+  const { t } = useApp();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
-    "idle",
+    "idle"
   );
+
+  const titleRef = useRef<HTMLHeadingElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
+
+  useEffect(() => {
+    const els = [titleRef.current, formRef.current].filter(Boolean);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("animate-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+
+    els.forEach((el) => el && observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -35,52 +59,62 @@ export default function Contact() {
   }
 
   return (
-    <section className="min-h-screen flex flex-col items-center justify-center px-4 py-20">
-      <h2 className="text-3xl md:text-4xl font-bold text-white mb-10">
-        تماس با من
+    <section
+      id="contact"
+      className="min-h-screen flex flex-col items-center justify-center px-4 py-20 scroll-mt-20"
+    >
+      <h2
+        ref={titleRef}
+        className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-10 animate-on-scroll"
+      >
+        {t.contact.title}
       </h2>
+
       <form
+        ref={formRef}
         onSubmit={handleSubmit}
-        className="w-full max-w-md flex flex-col gap-4"
+        className="w-full max-w-md flex flex-col gap-4 animate-on-scroll"
       >
         <input
           type="text"
-          placeholder="نام شما"
+          placeholder={t.contact.name}
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
-          className="bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white outline-none focus:border-gray-500"
+          className="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none focus:border-gray-500 dark:focus:border-gray-500 transition-colors"
         />
         <input
           type="email"
-          placeholder="ایمیل شما"
+          placeholder={t.contact.email}
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white outline-none focus:border-gray-500"
+          className="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none focus:border-gray-500 dark:focus:border-gray-500 transition-colors"
         />
         <textarea
-          placeholder="پیام شما"
+          placeholder={t.contact.message}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           required
           rows={5}
-          className="bg-gray-900 border border-gray-700 rounded-lg px-4 py-3 text-white outline-none focus:border-gray-500"
+          className="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none focus:border-gray-500 dark:focus:border-gray-500 transition-colors"
         />
         <button
           type="submit"
           disabled={status === "sending"}
-          className="bg-white text-black font-bold rounded-lg px-4 py-3 hover:bg-gray-200 transition-colors disabled:opacity-50"
+          className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-lg px-4 py-3 hover:bg-gray-700 dark:hover:bg-gray-200 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 disabled:opacity-50"
         >
-          {status === "sending" ? "در حال ارسال..." : "ارسال پیام"}
+          {status === "sending" ? t.contact.sending : t.contact.send}
         </button>
 
         {status === "sent" && (
-          <p className="text-green-400 text-center">پیام شما ارسال شد ✅</p>
+          <p className="text-green-600 dark:text-green-400 text-center animate-fade-in">
+            {t.contact.sent}
+          </p>
         )}
         {status === "error" && (
-          <p className="text-red-400 text-center">
-            مشکلی پیش آمد، دوباره تلاش کنید.
+          <p className="text-red-600 dark:text-red-400 text-center animate-fade-in">
+            {t.contact.error}
           </p>
         )}
       </form>
