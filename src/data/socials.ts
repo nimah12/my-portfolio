@@ -7,22 +7,16 @@ export type SocialLink = {
 
 export const socials: SocialLink[] = [
   {
+    name: "GitHub",
+    url: "https://github.com/nimah12",
+    color: "#333333",
+    hoverColor: "#555555",
+  },
+  {
     name: "YouTube",
     url: "https://youtube.com/@yourchannel",
     color: "#FF0000",
     hoverColor: "#ff4d4d",
-  },
-  {
-    name: "Twitter / X",
-    url: "https://x.com/yourhandle",
-    color: "#1DA1F2",
-    hoverColor: "#4db8ff",
-  },
-  {
-    name: "Instagram",
-    url: "https://instagram.com/yourhandle",
-    color: "#E4405F",
-    hoverColor: "#ff6b85",
   },
   {
     name: "Telegram",
@@ -31,15 +25,21 @@ export const socials: SocialLink[] = [
     hoverColor: "#4db8e8",
   },
   {
-    name: "Discord",
-    url: "https://discord.gg/yourhandle",
-    color: "#5865F2",
-    hoverColor: "#7c86ff",
+    name: "Instagram",
+    url: "https://instagram.com/yourhandle",
+    color: "#E4405F",
+    hoverColor: "#ff6b85",
   },
   {
     name: "LinkedIn",
     url: "https://linkedin.com/in/yourhandle",
     color: "#0A66C2",
     hoverColor: "#3388dd",
+  },
+  {
+    name: "Email",
+    url: "mailto:bbmesiaaw@gmail.com",
+    color: "#EA4335",
+    hoverColor: "#ff6b5c",
   },
 ];
