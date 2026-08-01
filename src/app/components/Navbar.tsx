@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useApp } from "../providers";
+import Clock from "./Clock";
 
 export default function Navbar() {
   const { lang, setLang, t, theme, toggleTheme } = useApp();
@@ -51,14 +52,8 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white/70 dark:bg-black/70 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
 
-        {/* ── لوگو ── */}
-        <a
-          href="#hero"
-          onClick={(e) => handleClick(e, "#hero")}
-          className="text-gray-900 dark:text-white font-bold text-lg"
-        >
-          Nima Hasani
-        </a>
+        {/* ── ساعت و تاریخ ── */}
+        <Clock />
 
         {/* ── لینک‌های دسکتاپ ── */}
         <ul className="hidden md:flex items-center gap-8">
