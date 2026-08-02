@@ -17,20 +17,20 @@ export const projects: Project[] = [
       en: "Web app showing real-time currency, gold and coin prices with price charts. Includes user authentication, a price alert system (get an email when a price reaches your target) and an admin panel. Solves the problem of severe currency fluctuations in the Iranian market with real-time data.",
     },
     tech: ["Next.js", "TypeScript", "Node.js", "MongoDB", "Tailwind CSS"],
-    demoUrl: "https://example.com",
+    demoUrl: "https://arzino-gilt.vercel.app/",
     githubUrl: "https://github.com/nimah12/arzino",
   },
   {
     title: {
-      fa: "رزروآسان — سیستم رزرو آنلاین خدمات",
-      en: "Rezervasan — Online Service Booking System",
+      fa: "جایار — رزرو هتل و ویلا در سراسر ایران",
+      en: "Jayar — Hotel & Villa Booking Across Iran",
     },
     description: {
-      fa: "پلتفرم رزرو آنلاین برای سالن‌های زیبایی و آرایشگاه‌ها. مشتری‌ها با تقویم آنلاین وقت رزرو می‌کنند، صاحب کسب‌وکار زمان‌بندی را مدیریت می‌کند و یادآوری رزرو به صورت خودکار ارسال می‌شود. پروژه‌ای کامل شامل دیتابیس، API واقعی، احراز هویت و پنل‌های جداگانه کاربر و مدیر.",
-      en: "Online booking platform for beauty salons and barbershops. Customers book appointments with an online calendar, the business owner manages scheduling, and booking reminders are sent automatically. A complete project including database, real API, authentication, and separate user and admin panels.",
+      fa: "سامانه آنلاین رزرو اقامتگاه با امکان جستجوی هتل، ویلا و سوئیت در سراسر ایران، فیلتر و مرتب‌سازی نتایج بر اساس قیمت و امتیاز، صفحه اختصاصی برای هر اقامتگاه و بخش «میزبان شوید» برای ثبت ملک و کسب درآمد از رزرو.",
+      en: "Online accommodation booking platform to search hotels, villas and suites across Iran, filter and sort results by price and rating, view a dedicated page for each listing, and a host section to list a property and earn from bookings.",
     },
-    tech: ["Next.js", "React", "Node.js", "PostgreSQL", "REST API"],
-    demoUrl: "https://example.com",
-    githubUrl: "https://github.com/nimah12/rezervasan",
+    tech: ["JavaScript", "HTML", "CSS"],
+    demoUrl: "https://jayar-nine.vercel.app/",
+    githubUrl: "https://github.com/nimah12/Jayar",
   },
 ];

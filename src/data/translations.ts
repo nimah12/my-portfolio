@@ -4,6 +4,7 @@ export const translations = {
       home: "خانه",
       about: "درباره من",
       skills: "مهارت‌ها",
+      gallery: "پشت صحنه",
       projects: "نمونه‌کارها",
       contact: "تماس",
     },
@@ -19,6 +20,15 @@ export const translations = {
     },
     skills: {
       title: "مهارت‌ها",
+    },
+    gallery: {
+      title: "پشت صحنه",
+      subtitle: "لحظاتی از محیط کار و ساخت پروژه‌ها",
+      captions: [
+        "در حال کدنویسی",
+        "تمرکز روی یک باگ",
+        "کنار تیم، در حال توسعه",
+      ],
     },
     projects: {
       title: "نمونه‌کارها",
@@ -41,6 +51,7 @@ export const translations = {
       home: "Home",
       about: "About",
       skills: "Skills",
+      gallery: "Behind the Scenes",
       projects: "Projects",
       contact: "Contact",
     },
@@ -56,6 +67,15 @@ export const translations = {
     },
     skills: {
       title: "Skills",
+    },
+    gallery: {
+      title: "Behind the Scenes",
+      subtitle: "A few moments from where the projects get built",
+      captions: [
+        "Deep in the code",
+        "Chasing down a bug",
+        "Building alongside the team",
+      ],
     },
     projects: {
       title: "Projects",

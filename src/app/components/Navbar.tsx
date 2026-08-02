@@ -13,6 +13,7 @@ export default function Navbar() {
     { label: t.nav.home, href: "#hero" },
     { label: t.nav.about, href: "#about" },
     { label: t.nav.skills, href: "#skills" },
+    { label: t.nav.gallery, href: "#gallery" },
     { label: t.nav.projects, href: "#projects" },
     { label: t.nav.contact, href: "#contact" },
   ];
