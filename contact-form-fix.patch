@@ -1,0 +1,596 @@
+diff --git a/.env.example b/.env.example
+new file mode 100644
+index 0000000..dcad03b
+--- /dev/null
++++ b/.env.example
+@@ -0,0 +1,2 @@
++RESEND_API_KEY=re_xxxxxxxxxxxxxxxxxxxxxxxxxxxx
++CONTACT_EMAIL=your-email@example.com
+diff --git a/.gitignore b/.gitignore
+index 517252d..41be2a3 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -32,6 +32,7 @@ yarn-error.log*
+ 
+ # env files (can opt-in for committing if needed)
+ .env*
++!.env.example
+ 
+ # vercel
+ .vercel
+diff --git a/package-lock.json b/package-lock.json
+index 5b0a3a3..3e14c82 100644
+--- a/package-lock.json
++++ b/package-lock.json
+@@ -10,7 +10,8 @@
+       "dependencies": {
+         "next": "16.2.12",
+         "react": "19.2.4",
+-        "react-dom": "19.2.4"
++        "react-dom": "19.2.4",
++        "resend": "^6.18.1"
+       },
+       "devDependencies": {
+         "@tailwindcss/postcss": "^4",
+@@ -612,9 +613,6 @@
+       "cpu": [
+         "arm"
+       ],
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -631,9 +629,6 @@
+       "cpu": [
+         "arm64"
+       ],
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -650,9 +645,6 @@
+       "cpu": [
+         "ppc64"
+       ],
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -669,9 +661,6 @@
+       "cpu": [
+         "riscv64"
+       ],
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -688,9 +677,6 @@
+       "cpu": [
+         "s390x"
+       ],
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -707,9 +693,6 @@
+       "cpu": [
+         "x64"
+       ],
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -726,9 +709,6 @@
+       "cpu": [
+         "arm64"
+       ],
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -745,9 +725,6 @@
+       "cpu": [
+         "x64"
+       ],
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "LGPL-3.0-or-later",
+       "optional": true,
+       "os": [
+@@ -764,9 +741,6 @@
+       "cpu": [
+         "arm"
+       ],
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -789,9 +763,6 @@
+       "cpu": [
+         "arm64"
+       ],
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -814,9 +785,6 @@
+       "cpu": [
+         "ppc64"
+       ],
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -839,9 +807,6 @@
+       "cpu": [
+         "riscv64"
+       ],
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -864,9 +829,6 @@
+       "cpu": [
+         "s390x"
+       ],
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -889,9 +851,6 @@
+       "cpu": [
+         "x64"
+       ],
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -914,9 +873,6 @@
+       "cpu": [
+         "arm64"
+       ],
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -939,9 +895,6 @@
+       "cpu": [
+         "x64"
+       ],
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "Apache-2.0",
+       "optional": true,
+       "os": [
+@@ -1160,9 +1113,6 @@
+       "cpu": [
+         "arm64"
+       ],
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1179,9 +1129,6 @@
+       "cpu": [
+         "arm64"
+       ],
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1198,9 +1145,6 @@
+       "cpu": [
+         "x64"
+       ],
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1217,9 +1161,6 @@
+       "cpu": [
+         "x64"
+       ],
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1316,6 +1257,12 @@
+       "dev": true,
+       "license": "MIT"
+     },
++    "node_modules/@stablelib/base64": {
++      "version": "1.0.1",
++      "resolved": "https://registry.npmjs.org/@stablelib/base64/-/base64-1.0.1.tgz",
++      "integrity": "sha512-1bnPQqSxSuc3Ii6MhBysoWCg58j97aUjuCSZrGSmDxNqtytIi0k8utUenAwTZN4V5mXXYGsVUI9zeBqy+jBOSQ==",
++      "license": "MIT"
++    },
+     "node_modules/@swc/helpers": {
+       "version": "0.5.15",
+       "resolved": "https://registry.npmjs.org/@swc/helpers/-/helpers-0.5.15.tgz",
+@@ -1458,9 +1405,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1478,9 +1422,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1498,9 +1439,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -1518,9 +1456,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -2071,9 +2006,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -2088,9 +2020,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -2105,9 +2034,6 @@
+         "loong64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -2122,9 +2048,6 @@
+         "loong64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -2139,9 +2062,6 @@
+         "ppc64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -2156,9 +2076,6 @@
+         "riscv64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -2173,9 +2090,6 @@
+         "riscv64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -2190,9 +2104,6 @@
+         "s390x"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -2207,9 +2118,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -2224,9 +2132,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MIT",
+       "optional": true,
+       "os": [
+@@ -3708,6 +3613,12 @@
+       "dev": true,
+       "license": "MIT"
+     },
++    "node_modules/fast-sha256": {
++      "version": "1.3.0",
++      "resolved": "https://registry.npmjs.org/fast-sha256/-/fast-sha256-1.3.0.tgz",
++      "integrity": "sha512-n11RGP/lrWEFI/bWdygLxhI+pVeo1ZYIVwvvPkW7azl/rOy+F3HYRZ2K5zeE9mmkhQppyv9sQFx0JM9UabnpPQ==",
++      "license": "Unlicense"
++    },
+     "node_modules/fastq": {
+       "version": "1.20.1",
+       "resolved": "https://registry.npmjs.org/fastq/-/fastq-1.20.1.tgz",
+@@ -4911,9 +4822,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MPL-2.0",
+       "optional": true,
+       "os": [
+@@ -4935,9 +4843,6 @@
+         "arm64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MPL-2.0",
+       "optional": true,
+       "os": [
+@@ -4959,9 +4864,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "glibc"
+-      ],
+       "license": "MPL-2.0",
+       "optional": true,
+       "os": [
+@@ -4983,9 +4885,6 @@
+         "x64"
+       ],
+       "dev": true,
+-      "libc": [
+-        "musl"
+-      ],
+       "license": "MPL-2.0",
+       "optional": true,
+       "os": [
+@@ -5573,6 +5472,12 @@
+         "node": ">= 0.4"
+       }
+     },
++    "node_modules/postal-mime": {
++      "version": "2.7.5",
++      "resolved": "https://registry.npmjs.org/postal-mime/-/postal-mime-2.7.5.tgz",
++      "integrity": "sha512-GNEXKvWFQnbgO5NlrGzVa0FmWzBZ24PersAWErttSg1Hjpf0ATxTwS5DOMGaOpTG6bUh5cTr7xi0jAD942wCJA==",
++      "license": "MIT-0"
++    },
+     "node_modules/postcss": {
+       "version": "8.5.25",
+       "resolved": "https://registry.npmjs.org/postcss/-/postcss-8.5.25.tgz",
+@@ -5727,6 +5632,27 @@
+         "url": "https://github.com/sponsors/ljharb"
+       }
+     },
++    "node_modules/resend": {
++      "version": "6.18.1",
++      "resolved": "https://registry.npmjs.org/resend/-/resend-6.18.1.tgz",
++      "integrity": "sha512-XN8XIaDdKF+ziSQ3K23ndUcyhP7U3ze2gky6SPgYkuAOq54mH4Wdhwm7QylEQ3zlz0NzdX7/l1AgmJUZbdPI/Q==",
++      "license": "MIT",
++      "dependencies": {
++        "postal-mime": "2.7.5",
++        "standardwebhooks": "1.0.0"
++      },
++      "engines": {
++        "node": ">=20"
++      },
++      "peerDependencies": {
++        "@react-email/render": "*"
++      },
++      "peerDependenciesMeta": {
++        "@react-email/render": {
++          "optional": true
++        }
++      }
++    },
+     "node_modules/resolve": {
+       "version": "2.0.0-next.7",
+       "resolved": "https://registry.npmjs.org/resolve/-/resolve-2.0.0-next.7.tgz",
+@@ -6099,6 +6025,16 @@
+       "dev": true,
+       "license": "MIT"
+     },
++    "node_modules/standardwebhooks": {
++      "version": "1.0.0",
++      "resolved": "https://registry.npmjs.org/standardwebhooks/-/standardwebhooks-1.0.0.tgz",
++      "integrity": "sha512-BbHGOQK9olHPMvQNHWul6MYlrRTAOKn03rOe4A8O3CLWhNf4YHBqq2HJKKC+sfqpxiBY52pNeesD6jIiLDz8jg==",
++      "license": "MIT",
++      "dependencies": {
++        "@stablelib/base64": "^1.0.0",
++        "fast-sha256": "^1.3.0"
++      }
++    },
+     "node_modules/stop-iteration-iterator": {
+       "version": "1.1.0",
+       "resolved": "https://registry.npmjs.org/stop-iteration-iterator/-/stop-iteration-iterator-1.1.0.tgz",
+diff --git a/package.json b/package.json
+index f1d3881..80c36c8 100644
+--- a/package.json
++++ b/package.json
+@@ -11,7 +11,8 @@
+   "dependencies": {
+     "next": "16.2.12",
+     "react": "19.2.4",
+-    "react-dom": "19.2.4"
++    "react-dom": "19.2.4",
++    "resend": "^6.18.1"
+   },
+   "devDependencies": {
+     "@tailwindcss/postcss": "^4",
+diff --git a/src/app/api/contact/route.ts b/src/app/api/contact/route.ts
+index 109f96f..7a045db 100644
+--- a/src/app/api/contact/route.ts
++++ b/src/app/api/contact/route.ts
+@@ -1,18 +1,61 @@
+-import { NextResponse } from "next/server";
+-
+-export async function POST(request: Request) {
+-  const body = await request.json();
+-  const { name, email, message } = body;
+-
+-  if (!name || !email || !message) {
+-    return NextResponse.json(
+-      { error: "لطفاً همه فیلدها را پر کنید." },
+-      { status: 400 },
+-    );
+-  }
+-
+-  // فعلاً فقط توی کنسول سرور چاپ می‌کنیم
+-  console.log("پیام جدید:", { name, email, message });
+-
+-  return NextResponse.json({ success: true });
+-}
++import { NextResponse } from "next/server";
++import { Resend } from "resend";
++
++const resend = new Resend(process.env.RESEND_API_KEY);
++
++export async function POST(request: Request) {
++  const body = await request.json();
++  const { name, email, message } = body;
++
++  if (!name || !email || !message) {
++    return NextResponse.json(
++      { error: "لطفاً همه فیلدها را پر کنید." },
++      { status: 400 },
++    );
++  }
++
++  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
++  if (!emailRegex.test(email)) {
++    return NextResponse.json(
++      { error: "ایمیل وارد شده معتبر نیست." },
++      { status: 400 },
++    );
++  }
++
++  const toEmail = process.env.CONTACT_EMAIL;
++  if (!process.env.RESEND_API_KEY || !toEmail) {
++    console.error(
++      "RESEND_API_KEY یا CONTACT_EMAIL تنظیم نشده — پیام ارسال نشد.",
++    );
++    return NextResponse.json(
++      { error: "سرویس ایمیل هنوز پیکربندی نشده است." },
++      { status: 500 },
++    );
++  }
++
++  try {
++    const { error } = await resend.emails.send({
++      from: "پورتفولیو <onboarding@resend.dev>",
++      to: toEmail,
++      replyTo: email,
++      subject: `پیام جدید از پورتفولیو — ${name}`,
++      text: `نام: ${name}\nایمیل: ${email}\n\nپیام:\n${message}`,
++    });
++
++    if (error) {
++      console.error("خطای Resend:", error);
++      return NextResponse.json(
++        { error: "ارسال پیام با خطا مواجه شد." },
++        { status: 502 },
++      );
++    }
++
++    return NextResponse.json({ success: true });
++  } catch (err) {
++    console.error("خطای غیرمنتظره در ارسال ایمیل:", err);
++    return NextResponse.json(
++      { error: "ارسال پیام با خطا مواجه شد." },
++      { status: 500 },
++    );
++  }
++}
