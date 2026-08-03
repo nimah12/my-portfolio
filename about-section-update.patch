@@ -1,0 +1,26 @@
+diff --git a/src/data/translations.ts b/src/data/translations.ts
+index 37afb94..30d14d0 100644
+--- a/src/data/translations.ts
++++ b/src/data/translations.ts
+@@ -16,8 +16,8 @@ export const translations = {
+     },
+     about: {
+       title: "درباره من",
+-      p1: "من Nima Hasani هستم، یک توسعه‌دهنده فول‌استک با تمرکز روی JavaScript، React، Next.js و Node.js. چیزی که من رو متمایز می‌کنه اینه که فقط دانش تئوری ندارم — من از تجربه ساخت پروژه‌های واقعی صحبت می‌کنم: از طراحی رابط کاربری تا دیتابیس، API و دیپلوی.",
+-      p2: "علاوه بر توسعه وب، عاشق آموزش هستم. من در چنل یوتیوبم به کسانی که می‌خوان برنامه‌نویسی رو از صفر شروع کنن، قدم به قدم و با زبان ساده آموزش می‌دم. باور دارم بهترین راه یادگیری، ساختن چیزهای واقعیه.",
++      p1: "من نیما حسنی هستم، توسعه‌دهنده فول‌استک با تمرکز بر React، Next.js، Node.js و JavaScript. تجربه‌ی من فراتر از دانش تئوری است؛ چند پروژه‌ی واقعی را به‌صورت مستقل و به‌طور کامل توسعه داده‌ام — از طراحی رابط کاربری تا اتصال به دیتابیس، ساخت API و دیپلوی نهایی.",
++      p2: "در کنار توسعه‌ی فرانت‌اند و بک‌اند، به‌طور فعال از ابزارهای هوش مصنوعی برای تسریع فرآیند توسعه و یادگیری فناوری‌های جدید استفاده می‌کنم. تمرکز اصلی من نوشتن کد تمیز، پیاده‌سازی رابط کاربری واکنش‌گرا، و تحویل محصولی قابل‌استفاده و آماده‌ی بهره‌برداری واقعی است.",
+     },
+     skills: {
+       title: "مهارت‌ها",
+@@ -64,8 +64,8 @@ export const translations = {
+     },
+     about: {
+       title: "About Me",
+-      p1: "I'm Nima Hasani, a full-stack developer focused on JavaScript, React, Next.js and Node.js. What sets me apart is that I don't just have theoretical knowledge — I speak from experience building real projects: from UI design to database, API and deployment.",
+-      p2: "Besides web development, I love teaching. On my YouTube channel, I teach people who want to start coding from scratch, step by step and in simple language. I believe the best way to learn is by building real things.",
++      p1: "I'm Nima Hasani, a full-stack developer focused on React, Next.js, Node.js and JavaScript. My experience goes beyond theory — I've independently built several real projects end-to-end, from UI design to database integration, API development and deployment.",
++      p2: "Alongside frontend and backend development, I actively use AI tools to speed up development and learn new technologies. My focus is on writing clean code, building responsive interfaces, and shipping products that are ready for real-world use.",
+     },
+     skills: {
+       title: "Skills",
