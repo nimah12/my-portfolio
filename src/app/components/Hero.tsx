@@ -36,6 +36,28 @@ export default function Hero() {
         </span>
       </p>
 
+      <a
+        href="/resume.pdf"
+        download
+        className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-full border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white hover:border-gray-900 dark:hover:border-white hover:scale-105 transition-all duration-300 animate-fade-up-delay text-sm font-medium"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className="w-4 h-4"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
+          <path d="M12 3v12" />
+          <path d="M7 10l5 5 5-5" />
+          <path d="M4 21h16" />
+        </svg>
+        {t.hero.downloadResume}
+      </a>
+
       <ProfileCard open={profileOpen} onClose={() => setProfileOpen(false)} />
     </section>
   );

@@ -12,6 +12,7 @@ export const translations = {
       greetingPre: "سلام، من",
       greetingPost: "هستم",
       title: "توسعه‌دهنده فول‌استک | متخصص",
+      downloadResume: "دانلود رزومه",
     },
     about: {
       title: "درباره من",
@@ -59,6 +60,7 @@ export const translations = {
       greetingPre: "Hi, I'm",
       greetingPost: "",
       title: "Full-Stack Developer | Expert in",
+      downloadResume: "Download Resume",
     },
     about: {
       title: "About Me",
