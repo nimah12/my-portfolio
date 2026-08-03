@@ -18,10 +18,37 @@ const vazirmatn = Vazirmatn({
   subsets: ["arabic"],
 });
 
+const siteUrl = "https://my-portfolio-rho-two-0ldjd0fltv.vercel.app";
+const title = "Nima Hasani | توسعه‌دهنده فول‌استک";
+const description =
+  "پورتفولیوی Nima Hasani — توسعه‌دهنده فول‌استک با تخصص در React، Next.js و Node.js";
+
 export const metadata: Metadata = {
-  title: "Nima Hasani | توسعه‌دهنده فول‌استک",
-  description:
-    "پورتفولیوی Nima Hasani — توسعه‌دهنده فول‌استک با تخصص در React، Next.js و Node.js",
+  metadataBase: new URL(siteUrl),
+  title,
+  description,
+  openGraph: {
+    title,
+    description,
+    url: siteUrl,
+    siteName: "Nima Hasani Portfolio",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Nima Hasani — Full-Stack / AI Web Developer",
+      },
+    ],
+    locale: "fa_IR",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/og-image.png"],
+  },
 };
 
 export default function RootLayout({
