@@ -25,9 +25,12 @@ export const translations = {
     gallery: {
       title: "پشت صحنه",
       subtitle: "لحظاتی از محیط کار و ساخت پروژه‌ها",
+      lightbox: "نمایشگر عکس",
+      openImage: "باز کردن عکس",
       captions: [
-        "در حال کدنویسی",
-        "تمرکز روی یک باگ",
+        "در حال حل باگ با تیم",
+        "در حال فکر کردن به راه‌حل",
+        "در حال کار روی پروژه",
         "کنار تیم، در حال توسعه",
       ],
     },
@@ -45,6 +48,7 @@ export const translations = {
       sending: "در حال ارسال...",
       sent: "پیام شما ارسال شد",
       error: "مشکلی پیش آمد، دوباره تلاش کنید.",
+      tooMany: "تعداد درخواست‌ها زیاد شد؛ کمی بعد دوباره تلاش کنید.",
     },
   },
   en: {
@@ -73,9 +77,12 @@ export const translations = {
     gallery: {
       title: "Behind the Scenes",
       subtitle: "A few moments from where the projects get built",
+      lightbox: "Image lightbox",
+      openImage: "Open image",
       captions: [
-        "Deep in the code",
-        "Chasing down a bug",
+        "Debugging with the team",
+        "Thinking through a solution",
+        "Working on the project",
         "Building alongside the team",
       ],
     },
@@ -93,6 +100,7 @@ export const translations = {
       sending: "Sending...",
       sent: "Your message was sent",
       error: "Something went wrong, please try again.",
+      tooMany: "Too many requests — please try again in a moment.",
     },
   },
 } as const;

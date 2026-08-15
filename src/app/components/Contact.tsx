@@ -8,9 +8,11 @@ export default function Contact() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
-  const [status, setStatus] = useState<"idle" | "sending" | "sent" | "error">(
-    "idle"
-  );
+  // فیلد هانی‌پات — برای انسان‌ها مخفی است؛ ربات‌ها آن را پر می‌کنند
+  const [website, setWebsite] = useState("");
+  const [status, setStatus] = useState<
+    "idle" | "sending" | "sent" | "error" | "rate-limited"
+  >("idle");
 
   const titleRef = useRef<HTMLHeadingElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -42,10 +44,12 @@ export default function Contact() {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, message }),
+        body: JSON.stringify({ name, email, message, website }),
       });
 
-      if (res.ok) {
+      if (res.status === 429) {
+        setStatus("rate-limited");
+      } else if (res.ok) {
         setStatus("sent");
         setName("");
         setEmail("");
@@ -75,6 +79,18 @@ export default function Contact() {
         onSubmit={handleSubmit}
         className="w-full max-w-md flex flex-col gap-4 animate-on-scroll"
       >
+        {/* فیلد هانی‌پات: از دید کاربران مخفی است، ربات‌ها آن را پر می‌کنند */}
+        <input
+          type="text"
+          name="website"
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+          className="absolute -left-[9999px] h-0 w-0 opacity-0"
+        />
+
         <input
           type="text"
           placeholder={t.contact.name}
@@ -115,6 +131,11 @@ export default function Contact() {
         {status === "error" && (
           <p className="text-red-600 dark:text-red-400 text-center animate-fade-in">
             {t.contact.error}
+          </p>
+        )}
+        {status === "rate-limited" && (
+          <p className="text-orange-600 dark:text-orange-400 text-center animate-fade-in">
+            {t.contact.tooMany}
           </p>
         )}
       </form>

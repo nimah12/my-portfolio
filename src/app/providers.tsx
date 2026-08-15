@@ -1,9 +1,9 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { translations, type Language } from "@/data/translations";
 
-type Theme = "dark" | "light";
+export type Theme = "dark" | "light";
 
 type AppContextType = {
   lang: Language;
@@ -15,39 +15,38 @@ type AppContextType = {
 
 const AppContext = createContext<AppContextType | null>(null);
 
-export function AppProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Language>("fa");
-  const [theme, setTheme] = useState<Theme>("dark");
+const YEAR = 60 * 60 * 24 * 365;
 
-  // ── زبان ──
-  useEffect(() => {
-    const saved = localStorage.getItem("lang") as Language | null;
-    if (saved === "fa" || saved === "en") {
-      setLangState(saved);
-      document.documentElement.lang = saved;
-      document.documentElement.dir = saved === "fa" ? "rtl" : "ltr";
-    }
-  }, []);
+function setCookie(name: string, value: string) {
+  document.cookie = `${name}=${value}; path=/; max-age=${YEAR}; samesite=lax`;
+}
+
+export function AppProvider({
+  children,
+  initialLang,
+  initialTheme,
+}: {
+  children: React.ReactNode;
+  initialLang: Language;
+  initialTheme: Theme;
+}) {
+  // مقدار اولیه از سمت سرور (کوکی) می‌آید؛ بنابراین اولین رندرِ کلاینت دقیقاً
+  // با HTML سرور یکی است و هیچ فلش یا اختلاف hydration وجود ندارد.
+  const [lang, setLangState] = useState<Language>(initialLang);
+  const [theme, setTheme] = useState<Theme>(initialTheme);
 
   function setLang(lang: Language) {
     setLangState(lang);
+    setCookie("lang", lang);
     localStorage.setItem("lang", lang);
     document.documentElement.lang = lang;
     document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
   }
 
-  // ── تم ──
-  useEffect(() => {
-    const saved = localStorage.getItem("theme") as Theme | null;
-    if (saved === "light" || saved === "dark") {
-      setTheme(saved);
-      document.documentElement.classList.toggle("dark", saved === "dark");
-    }
-  }, []);
-
   function toggleTheme() {
     setTheme((prev) => {
       const next = prev === "dark" ? "light" : "dark";
+      setCookie("theme", next);
       localStorage.setItem("theme", next);
       document.documentElement.classList.toggle("dark", next === "dark");
       return next;

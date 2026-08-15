@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Vazirmatn } from "next/font/google";
+import { cookies } from "next/headers";
+import { siteConfig } from "@/config/site";
+import type { Language } from "@/data/translations";
 import "./globals.css";
-import { AppProvider } from "./providers";
+import { AppProvider, type Theme } from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,20 +21,15 @@ const vazirmatn = Vazirmatn({
   subsets: ["arabic"],
 });
 
-const siteUrl = "https://my-portfolio-rho-two-0ldjd0fltv.vercel.app";
-const title = "Nima Hasani | توسعه‌دهنده فول‌استک";
-const description =
-  "پورتفولیوی Nima Hasani — توسعه‌دهنده فول‌استک با تخصص در React، Next.js و Node.js";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title,
-  description,
+  metadataBase: new URL(siteConfig.url),
+  title: siteConfig.title,
+  description: siteConfig.description,
   openGraph: {
-    title,
-    description,
-    url: siteUrl,
-    siteName: "Nima Hasani Portfolio",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    url: siteConfig.url,
+    siteName: siteConfig.name,
     images: [
       {
         url: "/og-image.png",
@@ -45,42 +43,62 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title,
-    description,
+    title: siteConfig.title,
+    description: siteConfig.description,
     images: ["/og-image.png"],
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // زبان و تم از کوکی خوانده می‌شوند تا HTML اولیه‌ی سرور از همان لحظه‌ی اول
+  // درست رندر شود — بدون فلش و بدون اختلاف hydration.
+  const cookieStore = await cookies();
+  const savedLang = cookieStore.get("lang")?.value;
+  const lang: Language = savedLang === "en" ? "en" : "fa";
+  const savedTheme = cookieStore.get("theme")?.value;
+  const theme: Theme = savedTheme === "light" ? "light" : "dark";
+  const dir = lang === "fa" ? "rtl" : "ltr";
+
   return (
     <html
-      lang="fa"
-      dir="rtl"
+      lang={lang}
+      dir={dir}
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${vazirmatn.variable} h-full antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} ${vazirmatn.variable} h-full antialiased${
+        theme === "dark" ? " dark" : ""
+      }`}
     >
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                var theme = localStorage.getItem('theme');
-                if (theme === 'light') {
-                  document.documentElement.classList.remove('dark');
-                } else {
-                  document.documentElement.classList.add('dark');
-                }
+                // مهاجرت یک‌باره: اگر کاربر قبلاً انتخابش را در localStorage داشته
+                // ولی کوکی نداشته باشد، کوکی را برای بازدیدهای بعدی ست می‌کنیم.
+                // DOM را تغییر نمی‌دهیم تا با رندر سرور (که از کوکی آمده) تداخل نکند.
+                try {
+                  var lang = localStorage.getItem('lang');
+                  if ((lang === 'fa' || lang === 'en') && document.cookie.indexOf('lang=') === -1) {
+                    document.cookie = 'lang=' + lang + '; path=/; max-age=31536000; samesite=lax';
+                  }
+                  var theme = localStorage.getItem('theme');
+                  if ((theme === 'light' || theme === 'dark') && document.cookie.indexOf('theme=') === -1) {
+                    document.cookie = 'theme=' + theme + '; path=/; max-age=31536000; samesite=lax';
+                  }
+                } catch (e) {}
               })();
             `,
           }}
         />
       </head>
       <body className="min-h-full flex flex-col">
-        <AppProvider>{children}</AppProvider>
+        <AppProvider initialLang={lang} initialTheme={theme}>
+          {children}
+        </AppProvider>
       </body>
     </html>
   );

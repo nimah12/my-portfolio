@@ -1,19 +1,36 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useSyncExternalStore } from "react";
 import { useApp } from "../providers";
+
+// مقدار placeholder برای رندر سمت سرور — با Epoch که تاریخ واقعی نمایش ندهد
+const PLACEHOLDER = new Date(0);
+
+let currentTime = new Date();
+
+function subscribe(callback: () => void) {
+  const id = setInterval(() => {
+    currentTime = new Date();
+    callback();
+  }, 1000);
+  return () => clearInterval(id);
+}
+
+function getSnapshot() {
+  return currentTime;
+}
+
+function getServerSnapshot() {
+  return PLACEHOLDER;
+}
 
 export default function Clock() {
   const { lang } = useApp();
-  const [now, setNow] = useState<Date | null>(null);
+  // useSyncExternalStore ساعت را بدون setState داخل effect و بدون
+  // اختلاف hydration به‌روز می‌کند (رندر سرور همیشه placeholder می‌گیرد).
+  const now = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  useEffect(() => {
-    setNow(new Date());
-    const interval = setInterval(() => setNow(new Date()), 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  if (!now) {
+  if (now === PLACEHOLDER) {
     return (
       <div className="text-gray-500 dark:text-gray-400 text-sm text-right leading-tight">
         <div>&nbsp;</div>

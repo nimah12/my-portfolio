@@ -4,6 +4,9 @@ import { useState, useEffect } from "react";
 import { useApp } from "../providers";
 import Clock from "./Clock";
 
+// شناسه‌های بخش‌ها ثابت هستند و به زبان وابسته نیستند
+const SECTION_IDS = ["hero", "about", "skills", "gallery", "projects", "contact"];
+
 export default function Navbar() {
   const { lang, setLang, t, theme, toggleTheme } = useApp();
   const [active, setActive] = useState("#hero");
@@ -19,8 +22,6 @@ export default function Navbar() {
   ];
 
   useEffect(() => {
-    const sectionIds = navLinks.map((link) => link.href.slice(1));
-
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -32,13 +33,13 @@ export default function Navbar() {
       { rootMargin: "-40% 0px -60% 0px" }
     );
 
-    sectionIds.forEach((id) => {
+    SECTION_IDS.forEach((id) => {
       const el = document.getElementById(id);
       if (el) observer.observe(el);
     });
 
     return () => observer.disconnect();
-  }, [lang]);
+  }, []);
 
   function handleClick(e: React.MouseEvent<HTMLAnchorElement>, href: string) {
     e.preventDefault();

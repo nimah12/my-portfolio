@@ -1,11 +1,131 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// ── محدودیت نرخ درخواست (درون‌حافظه‌ای) ──
+// با متغیرهای محیطی قابل تنظیم است؛ در دیپلوی تک‌نمونه‌ای (مثل Vercel)
+// به‌عنوان یک لایه دفاعی سبک عمل می‌کند.
+const RATE_LIMIT_MAX = Number(process.env.RATE_LIMIT_MAX ?? 5);
+const RATE_LIMIT_WINDOW_MS = Number(process.env.RATE_LIMIT_WINDOW_MS ?? 60_000);
+
+const requests = new Map<string, number[]>();
+
+function getClientIp(request: Request): string {
+  const forwarded = request.headers.get("x-forwarded-for");
+  if (forwarded) return forwarded.split(",")[0].trim();
+  return request.headers.get("x-real-ip") ?? "unknown";
+}
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const recent = (requests.get(ip) ?? []).filter(
+    (t) => now - t < RATE_LIMIT_WINDOW_MS
+  );
+
+  if (recent.length >= RATE_LIMIT_MAX) {
+    requests.set(ip, recent);
+    return true;
+  }
+
+  recent.push(now);
+  requests.set(ip, recent);
+
+  // تمیزکاری ساده تا Map بی‌حد رشد نکند
+  if (requests.size > 1000) {
+    for (const [key, times] of requests) {
+      if (times.length === 0) requests.delete(key);
+    }
+  }
+
+  return false;
+}
+
+// escape کردن ورودی کاربر برای جلوگیری از تزریق HTML در ایمیل
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+// قالب HTML ایمیل (RTL) — استایل‌ها inline هستند تا در همه کلاینت‌های ایمیل درست نمایش داده شوند
+function buildContactEmailHtml(
+  name: string,
+  email: string,
+  message: string
+): string {
+  const safeName = escapeHtml(name);
+  const safeEmail = escapeHtml(email);
+  const safeMessage = escapeHtml(message);
+
+  return `
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<body style="margin:0;padding:0;background-color:#f4f4f5;font-family:Tahoma,'Segoe UI',Arial,sans-serif;">
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background-color:#f4f4f5;padding:24px 12px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:560px;background-color:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,0.08);">
+          <tr>
+            <td style="background-color:#0a0a0a;padding:20px 28px;">
+              <p style="margin:0;color:#ffffff;font-size:16px;font-weight:bold;">پیام جدید از پورتفولیو</p>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:28px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td style="padding-bottom:14px;">
+                    <p style="margin:0;font-size:13px;color:#71717a;">نام فرستنده</p>
+                    <p style="margin:4px 0 0;font-size:15px;color:#18181b;font-weight:bold;">${safeName}</p>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom:18px;">
+                    <p style="margin:0;font-size:13px;color:#71717a;">ایمیل فرستنده</p>
+                    <p style="margin:4px 0 0;font-size:14px;color:#2563eb;"><a href="mailto:${safeEmail}" style="color:#2563eb;text-decoration:none;">${safeEmail}</a></p>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p style="margin:0 0 8px;font-size:13px;color:#71717a;">پیام</p>
+                    <div style="background-color:#fafafa;border:1px solid #e4e4e7;border-radius:8px;padding:16px;font-size:14px;line-height:1.9;color:#18181b;white-space:pre-wrap;direction:rtl;text-align:right;">${safeMessage}</div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:14px 28px;border-top:1px solid #f0f0f1;background-color:#fafafa;">
+              <p style="margin:0;font-size:12px;color:#a1a1aa;">این ایمیل از طریق فرم تماس وب‌سایت ارسال شده است.</p>
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`;
+}
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { name, email, message } = body;
+  const { name, email, message, website } = body;
+
+  // هانی‌پات: اگر ربات فیلد مخفی «website» را پر کرده باشد، بدون ارسال
+  // ایمیل جواب موفقیت‌آمیز برمی‌گردانیم تا ربات متوجه نشود.
+  if (typeof website === "string" && website.trim() !== "") {
+    return NextResponse.json({ success: true });
+  }
+
+  // محدودیت نرخ درخواست
+  if (isRateLimited(getClientIp(request))) {
+    return NextResponse.json(
+      { error: "تعداد درخواست‌ها زیاد شده؛ کمی بعد دوباره تلاش کنید." },
+      { status: 429 },
+    );
+  }
 
   if (!name || !email || !message) {
     return NextResponse.json(
@@ -22,8 +142,13 @@ export async function POST(request: Request) {
     );
   }
 
+  const apiKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.CONTACT_EMAIL;
-  if (!process.env.RESEND_API_KEY || !toEmail) {
+  // آدرس فرستنده با CONTACT_FROM قابل تنظیم است؛
+  // پیش‌فرض فعلاً onboarding@resend.dev است تا بدون تنظیم هم کار کند.
+  const fromEmail =
+    process.env.CONTACT_FROM ?? "پورتفولیو <onboarding@resend.dev>";
+  if (!apiKey || !toEmail) {
     console.error(
       "RESEND_API_KEY یا CONTACT_EMAIL تنظیم نشده — پیام ارسال نشد.",
     );
@@ -34,12 +159,15 @@ export async function POST(request: Request) {
   }
 
   try {
+    // ساخت کلاینت فقط هنگام ارسال — چون سازنده‌ی Resend بدون کلید throw می‌کند
+    const resend = new Resend(apiKey);
     const { error } = await resend.emails.send({
-      from: "پورتفولیو <onboarding@resend.dev>",
+      from: fromEmail,
       to: toEmail,
       replyTo: email,
       subject: `پیام جدید از پورتفولیو — ${name}`,
       text: `نام: ${name}\nایمیل: ${email}\n\nپیام:\n${message}`,
+      html: buildContactEmailHtml(name, email, message),
     });
 
     if (error) {

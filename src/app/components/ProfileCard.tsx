@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { socials } from "@/data/socials";
 import { useApp } from "../providers";
 
@@ -36,6 +37,9 @@ const icons: Record<string, React.ReactNode> = {
   ),
 };
 
+const FOCUSABLE_SELECTOR =
+  'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])';
+
 export default function ProfileCard({
   open,
   onClose,
@@ -44,6 +48,62 @@ export default function ProfileCard({
   onClose: () => void;
 }) {
   const { t } = useApp();
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const returnFocusRef = useRef<HTMLElement | null>(null);
+
+  // هنگام باز شدن: ذخیره عنصر قبلی، فوکوس داخل مودال، قفل اسکرول،
+  // بستن با Esc و چرخش فوکوس با Tab
+  useEffect(() => {
+    if (!open) return;
+
+    returnFocusRef.current = document.activeElement as HTMLElement | null;
+
+    const dialog = dialogRef.current;
+    if (dialog) dialog.focus();
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    function handleKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        onClose();
+        return;
+      }
+
+      if (e.key !== "Tab" || !dialog) return;
+
+      const focusables = dialog.querySelectorAll<HTMLElement>(
+        FOCUSABLE_SELECTOR
+      );
+      if (focusables.length === 0) return;
+
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open, onClose]);
+
+  // هنگام بستن: برگرداندن فوکوس به عنصر قبلی (دکمه نام در Hero)
+  useEffect(() => {
+    if (open) return;
+    returnFocusRef.current?.focus();
+    returnFocusRef.current = null;
+  }, [open]);
 
   if (!open) return null;
 
@@ -53,8 +113,13 @@ export default function ProfileCard({
       onClick={onClose}
     >
       <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="profile-card-title"
+        tabIndex={-1}
         onClick={(e) => e.stopPropagation()}
-        className="bg-white dark:bg-gray-900 rounded-2xl p-8 w-full max-w-sm text-center relative border border-gray-200 dark:border-gray-700 shadow-2xl animate-fade-up"
+        className="bg-white dark:bg-gray-900 rounded-2xl p-8 w-full max-w-sm text-center relative border border-gray-200 dark:border-gray-700 shadow-2xl animate-fade-up outline-none"
       >
         {/* دکمه بستن */}
         <button
@@ -81,7 +146,10 @@ export default function ProfileCard({
           />
         </div>
 
-        <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-1">
+        <h3
+          id="profile-card-title"
+          className="text-2xl font-bold text-gray-900 dark:text-white mb-1"
+        >
           Nima Hasani
         </h3>
         <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">

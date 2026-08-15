@@ -38,7 +38,7 @@ export const socials: SocialLink[] = [
   },
   {
     name: "Email",
-    url: "mailto:bbmesiaaw@gmail.com",
+    url: "mailto:nima.hasani.dev@gmail.com",
     color: "#EA4335",
     hoverColor: "#ff6b5c",
   },
