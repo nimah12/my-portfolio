@@ -6,6 +6,7 @@ export const translations = {
       skills: "مهارت‌ها",
       gallery: "پشت صحنه",
       projects: "نمونه‌کارها",
+      certificates: "گواهینامه‌ها",
       contact: "تماس",
     },
     hero: {
@@ -39,6 +40,11 @@ export const translations = {
       demo: "دمو زنده",
       github: "گیت‌هاب",
     },
+    certificates: {
+      title: "دوره‌ها و گواهینامه‌ها",
+      hours: "ساعت",
+      verify: "مشاهده گواهی",
+    },
     contact: {
       title: "تماس با من",
       name: "نام شما",
@@ -58,6 +64,7 @@ export const translations = {
       skills: "Skills",
       gallery: "Behind the Scenes",
       projects: "Projects",
+      certificates: "Certificates",
       contact: "Contact",
     },
     hero: {
@@ -90,6 +97,11 @@ export const translations = {
       title: "Projects",
       demo: "Live Demo",
       github: "GitHub",
+    },
+    certificates: {
+      title: "Courses & Certificates",
+      hours: "hours",
+      verify: "View Certificate",
     },
     contact: {
       title: "Contact Me",

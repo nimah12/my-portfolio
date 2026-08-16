@@ -5,7 +5,7 @@ import { useApp } from "../providers";
 import Clock from "./Clock";
 
 // شناسه‌های بخش‌ها ثابت هستند و به زبان وابسته نیستند
-const SECTION_IDS = ["hero", "about", "skills", "gallery", "projects", "contact"];
+const SECTION_IDS = ["hero", "about", "skills", "gallery", "projects", "certificates", "contact"];
 
 export default function Navbar() {
   const { lang, setLang, t, theme, toggleTheme } = useApp();
@@ -18,6 +18,7 @@ export default function Navbar() {
     { label: t.nav.skills, href: "#skills" },
     { label: t.nav.gallery, href: "#gallery" },
     { label: t.nav.projects, href: "#projects" },
+    { label: t.nav.certificates, href: "#certificates" },
     { label: t.nav.contact, href: "#contact" },
   ];
 
