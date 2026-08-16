@@ -48,10 +48,10 @@ export const projects: Project[] = [
       en: "Jayar — Hotel & Villa Booking Across Iran",
     },
     description: {
-      fa: "جایار، سامانهٔ کاملاً فارسی و راست‌به‌چپ رزرو اقامتگاه برای جستجو و رزرو هتل، ویلا، سوئیت و اقامتگاه در سراسر ایران است. شامل فیلتر بر اساس شهر، نوع اقامتگاه و ظرفیت، مرتب‌سازی بر اساس قیمت و امتیاز، صفحهٔ جزئیات با گالری، امکانات و نظرات، رزرو آنلاین با محاسبهٔ خودکار قیمت (۱۰٪ هزینهٔ سرویس) و پنل میزبان برای ثبت و مدیریت ملک و تأیید/رد رزروها. بدون هیچ فریم‌ورکی — با جاوااسکریپت خالص، CSS سفارشی، Tailwind CSS و یک سرور محلی Node.js ساخته شده است.",
-      en: "Jayar is a fully Persian (RTL) accommodation booking platform to search and reserve hotels, villas, suites and stays across Iran. It features filtering by city, property type and capacity, sorting by price and rating, a detail page with gallery, amenities and reviews, online booking with automatic price calculation (10% service fee), and a host panel to list and manage properties and approve or reject bookings. Built with vanilla JavaScript (no framework), custom CSS, Tailwind CSS and a local Node.js server.",
+      fa: "نسخه‌ی نمایشی (Prototype) یک پلتفرم رزرو اقامتگاه: جستجوی هتل، ویلا و سوئیت در سراسر ایران، فیلتر و مرتب‌سازی نتایج، صفحه اختصاصی برای هر اقامتگاه با رزرو آنلاین، و پنل کامل میزبان برای ثبت ملک و مدیریت رزروها. پیاده‌سازی با جاوااسکریپت خالص (بدون فریمورک) و یک API سبک روی Node.js؛ بدون دیتابیس یا درگاه پرداخت واقعی.",
+      en: "A demo/prototype accommodation booking platform: search hotels, villas and suites across Iran, filter and sort results, a dedicated listing page with online booking, and a full host panel to list properties and manage bookings. Built with vanilla JavaScript (no framework) and a lightweight Node.js API; no real database or payment gateway.",
     },
-    tech: ["JavaScript", "HTML", "CSS", "Tailwind CSS", "Node.js"],
+    tech: ["JavaScript", "HTML", "CSS", "Node.js"],
     demoUrl: "https://jayar-nine.vercel.app/",
     githubUrl: "https://github.com/nimah12/Jayar",
   },
