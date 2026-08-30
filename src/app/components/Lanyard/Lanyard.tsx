@@ -151,10 +151,11 @@ function Band({
     dir = new THREE.Vector3();
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
   const { nodes, materials } = useGLTF(cardGLB);
-  // Anchor the band at the clip height. The original component used [0, 1.5, 0]
-  // at scale 2.25; scale it with CARD_SCALE so the band still lands on the
-  // clip (above the card's centre) without flipping the card upside down.
-  const clipAnchorY = 1.5 * (CARD_SCALE / 2.25);
+  // Anchor the band at the clip height. The clip sits at y≈1.2 in model space;
+  // after the card group offset (-1.2) and scale S, its body-space height is
+  // -1.2 + 1.2·S = 1.2·(S-1). This keeps the band's start exactly on the clip
+  // at any card scale, and stays above the card centre so it never flips.
+  const clipAnchorY = 1.2 * (CARD_SCALE - 1);
   const texture = useTexture(lanyardImage || lanyard);
   const frontTex = useTexture(frontImage || BLANK_PIXEL);
   const backTex = useTexture(backImage || BLANK_PIXEL);
