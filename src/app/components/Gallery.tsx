@@ -66,7 +66,7 @@ export default function Gallery() {
       {isMobile ? (
         <ClassicGallery />
       ) : (
-        <div className="w-full h-[640px]">
+        <div className="w-full h-[65vh] min-h-[460px]">
           <Lanyard images={photos.map((p) => p.src)} />
         </div>
       )}

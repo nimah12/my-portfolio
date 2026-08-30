@@ -1,7 +1,7 @@
 // @ts-nocheck
 'use client';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Canvas, extend, useFrame } from '@react-three/fiber';
+import { Canvas, extend, useFrame, useThree } from '@react-three/fiber';
 import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei';
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
@@ -17,13 +17,19 @@ extend({ MeshLineGeometry, MeshLineMaterial });
 const BLANK_PIXEL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 
+// Approximate on-screen width of one card (model half-width ~0.8 * scale).
+const CARD_SCALE = 2.5;
+const CARD_VISUAL_WIDTH = 1.6 * CARD_SCALE;
+const SPACING = 5;
+const FOV = 20;
+
 const FRONT_UV_RECT = { x: 0, y: 0, w: 0.5, h: 0.755 };
 const BACK_UV_RECT = { x: 0.5, y: 0, w: 0.5, h: 0.757 };
 
 export default function Lanyard({
   position = [0, 0, 30],
   gravity = [0, -40, 0],
-  fov = 20,
+  fov = FOV,
   transparent = true,
   images = null,
   frontImage = null,
@@ -52,10 +58,12 @@ export default function Lanyard({
   }, []);
 
   const cards = images && images.length ? images : null;
-  const SPACING = 4;
   const cardOffsets = cards
     ? cards.map((_, i) => (i - (cards.length - 1) / 2) * SPACING)
     : [0];
+
+  // Total world width the camera must show so every card fits on any monitor.
+  const totalWidth = (cards ? cards.length : 1) * CARD_VISUAL_WIDTH + (cards ? cards.length - 1 : 0) * SPACING + 2;
 
   return (
     <div className="lanyard-wrapper">
@@ -65,6 +73,7 @@ export default function Lanyard({
         gl={{ alpha: transparent }}
         onCreated={({ gl }) => gl.setClearColor(new THREE.Color(0x000000), transparent ? 0 : 1)}
       >
+        <FitCamera targetWidth={totalWidth} fov={fov} />
         <ambientLight intensity={Math.PI} />
         <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
           {cards
@@ -99,6 +108,22 @@ export default function Lanyard({
       </Canvas>
     </div>
   );
+}
+
+// Pulls the camera back (or pushes it closer) so the whole row of cards always
+// fits the current canvas width, on any monitor size.
+function FitCamera({ targetWidth, fov }: { targetWidth: number; fov: number }) {
+  const { camera, size } = useThree();
+  useEffect(() => {
+    const aspect = size.width / Math.max(1, size.height);
+    const halfFov = (fov * Math.PI) / 180 / 2;
+    const zForWidth = targetWidth / 2 / (Math.tan(halfFov) * aspect);
+    const z = Math.max(24, Math.min(60, zForWidth));
+    camera.position.set(0, 0, z);
+    camera.lookAt(0, 2, 0);
+    camera.updateProjectionMatrix();
+  }, [size.width, size.height, targetWidth, fov, camera]);
+  return null;
 }
 
 function Band({
@@ -240,7 +265,7 @@ function Band({
         <RigidBody position={[2, 0, 0]} ref={card} {...segmentProps} type={dragged ? 'kinematicPosition' : 'dynamic'}>
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
-            scale={2.25}
+            scale={CARD_SCALE}
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
