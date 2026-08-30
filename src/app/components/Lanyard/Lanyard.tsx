@@ -241,7 +241,7 @@ function Band({
           <CuboidCollider args={[1.2, 1.8, 0.1]} />
           <group
             scale={2.5}
-            position={[0, -1.2, -0.05]}
+            position={[0, -0.6, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
             onPointerUp={e => (e.target.releasePointerCapture(e.pointerId), drag(false))}
