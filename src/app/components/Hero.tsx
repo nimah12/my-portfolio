@@ -6,12 +6,11 @@ import ProfileCard from "./ProfileCard";
 import ParticleText from "./ParticleText";
 
 export default function Hero() {
-  const { t, theme } = useApp();
+  const { t } = useApp();
   const [profileOpen, setProfileOpen] = useState(false);
 
-  const isDark = theme === "dark";
-  const particleColor = isDark ? "#ffffff" : "#0f172a";
-  const particleHighlight = isDark ? "#8b5cf6" : "#2563eb";
+  const particleColor = "#ffffff";
+  const particleHighlight = "#8b5cf6";
 
   return (
     <section

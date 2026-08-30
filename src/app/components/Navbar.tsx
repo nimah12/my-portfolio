@@ -8,7 +8,7 @@ import Clock from "./Clock";
 const SECTION_IDS = ["hero", "about", "skills", "gallery", "projects", "certificates", "contact"];
 
 export default function Navbar() {
-  const { lang, setLang, t, theme, toggleTheme } = useApp();
+  const { lang, setLang, t } = useApp();
   const [active, setActive] = useState("#hero");
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -52,7 +52,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/70 dark:bg-black/70 backdrop-blur-md border-b border-gray-200 dark:border-gray-800">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/5 dark:bg-black/30 backdrop-blur-xl border-b border-white/10 dark:border-white/[0.08] shadow-[0_4px_30px_rgba(0,0,0,0.3)]">
       <div className="max-w-6xl mx-auto flex items-center justify-between px-6 py-4">
 
         {/* ── ساعت و تاریخ ── */}
@@ -67,8 +67,8 @@ export default function Navbar() {
                 onClick={(e) => handleClick(e, link.href)}
                 className={`text-sm transition-colors ${
                   active === link.href
-                    ? "text-gray-900 dark:text-white font-semibold"
-                    : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                    ? "text-white font-semibold"
+                    : "text-gray-400 hover:text-white"
                 }`}
               >
                 {link.label}
@@ -82,33 +82,15 @@ export default function Navbar() {
           {/* دکمه زبان */}
           <button
             onClick={() => setLang(lang === "fa" ? "en" : "fa")}
-            className="text-sm text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors px-2 py-1 rounded border border-gray-300 dark:border-gray-700 hover:border-gray-400 dark:hover:border-gray-500"
+            className="text-sm text-gray-400 hover:text-white transition-colors px-2 py-1 rounded border border-white/10 hover:border-white/20"
             aria-label="Switch language"
           >
             {lang === "fa" ? "EN" : "فا"}
           </button>
 
-          {/* دکمه تم */}
-          <button
-            onClick={toggleTheme}
-            className="text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors"
-            aria-label="Toggle theme"
-          >
-            {theme === "dark" ? (
-              <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-                <circle cx="12" cy="12" r="4" />
-                <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41" />
-              </svg>
-            ) : (
-              <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-              </svg>
-            )}
-          </button>
-
           {/* ── دکمه همبرگر (موبایل) ── */}
           <button
-            className="md:hidden text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+            className="md:hidden text-gray-400 hover:text-white"
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label="Toggle menu"
           >
@@ -127,7 +109,7 @@ export default function Navbar() {
 
       {/* ── منوی موبایل ── */}
       {menuOpen && (
-        <ul className="md:hidden flex flex-col items-center gap-4 pb-6 border-b border-gray-200 dark:border-gray-800">
+        <ul className="md:hidden flex flex-col items-center gap-4 pb-6 border-b border-white/10">
           {navLinks.map((link) => (
             <li key={link.href}>
               <a
@@ -135,8 +117,8 @@ export default function Navbar() {
                 onClick={(e) => handleClick(e, link.href)}
                 className={`text-sm transition-colors ${
                   active === link.href
-                    ? "text-gray-900 dark:text-white font-semibold"
-                    : "text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white"
+                    ? "text-white font-semibold"
+                    : "text-gray-400 hover:text-white"
                 }`}
               >
                 {link.label}
