@@ -4,7 +4,7 @@ import { cookies } from "next/headers";
 import { siteConfig } from "@/config/site";
 import type { Language } from "@/data/translations";
 import "./globals.css";
-import { AppProvider, type Theme } from "./providers";
+import { AppProvider } from "./providers";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -59,8 +59,6 @@ export default async function RootLayout({
   const cookieStore = await cookies();
   const savedLang = cookieStore.get("lang")?.value;
   const lang: Language = savedLang === "en" ? "en" : "fa";
-  const savedTheme = cookieStore.get("theme")?.value;
-  const theme: Theme = savedTheme === "light" ? "light" : "dark";
   const dir = lang === "fa" ? "rtl" : "ltr";
 
   return (
@@ -68,26 +66,17 @@ export default async function RootLayout({
       lang={lang}
       dir={dir}
       suppressHydrationWarning
-      className={`${geistSans.variable} ${geistMono.variable} ${vazirmatn.variable} h-full antialiased${
-        theme === "dark" ? " dark" : ""
-      }`}
+      className={`${geistSans.variable} ${geistMono.variable} ${vazirmatn.variable} h-full antialiased dark`}
     >
       <head>
         <script
           dangerouslySetInnerHTML={{
             __html: `
               (function() {
-                // مهاجرت یک‌باره: اگر کاربر قبلاً انتخابش را در localStorage داشته
-                // ولی کوکی نداشته باشد، کوکی را برای بازدیدهای بعدی ست می‌کنیم.
-                // DOM را تغییر نمی‌دهیم تا با رندر سرور (که از کوکی آمده) تداخل نکند.
                 try {
                   var lang = localStorage.getItem('lang');
                   if ((lang === 'fa' || lang === 'en') && document.cookie.indexOf('lang=') === -1) {
                     document.cookie = 'lang=' + lang + '; path=/; max-age=31536000; samesite=lax';
-                  }
-                  var theme = localStorage.getItem('theme');
-                  if ((theme === 'light' || theme === 'dark') && document.cookie.indexOf('theme=') === -1) {
-                    document.cookie = 'theme=' + theme + '; path=/; max-age=31536000; samesite=lax';
                   }
                 } catch (e) {}
               })();
@@ -96,7 +85,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col">
-        <AppProvider initialLang={lang} initialTheme={theme}>
+        <AppProvider initialLang={lang}>
           {children}
         </AppProvider>
       </body>
