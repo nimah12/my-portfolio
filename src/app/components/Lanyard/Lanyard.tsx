@@ -151,14 +151,10 @@ function Band({
     dir = new THREE.Vector3();
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
   const { nodes, materials } = useGLTF(cardGLB);
-  // Exact anchor: where the clip mesh sits in the card body's local space,
-  // accounting for the card group's position/scale. The band (ending at j3,
-  // whose anchor is [0,0,0]) therefore lands precisely on the clip.
-  const clipAnchor = [
-    nodes.clip.position.x * CARD_SCALE,
-    -1.2 + nodes.clip.position.y * CARD_SCALE,
-    -0.05 + nodes.clip.position.z * CARD_SCALE
-  ];
+  // Anchor the band at the clip height. The original component used [0, 1.5, 0]
+  // at scale 2.25; scale it with CARD_SCALE so the band still lands on the
+  // clip (above the card's centre) without flipping the card upside down.
+  const clipAnchorY = 1.5 * (CARD_SCALE / 2.25);
   const texture = useTexture(lanyardImage || lanyard);
   const frontTex = useTexture(frontImage || BLANK_PIXEL);
   const backTex = useTexture(backImage || BLANK_PIXEL);
@@ -218,7 +214,7 @@ function Band({
   useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
   useSphericalJoint(j3, card, [
     [0, 0, 0],
-    clipAnchor
+    [0, clipAnchorY, 0]
   ]);
 
   useEffect(() => {
