@@ -120,7 +120,7 @@ function FitCamera({ targetWidth, fov }: { targetWidth: number; fov: number }) {
     const aspect = size.width / Math.max(1, size.height);
     const halfFov = (fov * Math.PI) / 180 / 2;
     const zForWidth = targetWidth / 2 / (Math.tan(halfFov) * aspect);
-    const z = Math.max(24, Math.min(60, zForWidth));
+    const z = Math.max(28, Math.min(60, zForWidth));
     camera.position.set(0, 0, z);
     camera.lookAt(0, 2, 0);
     camera.updateProjectionMatrix();
@@ -151,6 +151,14 @@ function Band({
     dir = new THREE.Vector3();
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
   const { nodes, materials } = useGLTF(cardGLB);
+  // Exact anchor: where the clip mesh sits in the card body's local space,
+  // accounting for the card group's position/scale. The band (ending at j3,
+  // whose anchor is [0,0,0]) therefore lands precisely on the clip.
+  const clipAnchor = [
+    nodes.clip.position.x * CARD_SCALE,
+    -1.2 + nodes.clip.position.y * CARD_SCALE,
+    -0.05 + nodes.clip.position.z * CARD_SCALE
+  ];
   const texture = useTexture(lanyardImage || lanyard);
   const frontTex = useTexture(frontImage || BLANK_PIXEL);
   const backTex = useTexture(backImage || BLANK_PIXEL);
@@ -210,7 +218,7 @@ function Band({
   useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
   useSphericalJoint(j3, card, [
     [0, 0, 0],
-    [0, 1.5, 0]
+    clipAnchor
   ]);
 
   useEffect(() => {
