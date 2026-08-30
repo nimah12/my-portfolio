@@ -75,23 +75,23 @@ export default function Certificates() {
 
       {activeCert && (
         <div
-          className={`w-full max-w-5xl mt-8 px-4 text-center animate-on-scroll ${isRtl ? "text-right" : "text-left"}`}
+          className={`w-full max-w-2xl mt-16 px-8 py-8 rounded-2xl bg-black/30 backdrop-blur-xl border border-white/10 text-center animate-on-scroll ${isRtl ? "text-right" : "text-left"}`}
           dir={isRtl ? "rtl" : "ltr"}
         >
-          <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
+          <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
             <span dir="auto">{activeCert.title[lang]}</span>
           </h3>
           <p className="text-sm text-gray-400 mb-1">
             {activeCert.issuer} · {activeCert.hours} {t.certificates.hours}
           </p>
-          <p className="text-sm text-gray-400 mb-3">
+          <p className="text-sm text-gray-400 mb-4">
             {activeCert.instructor}
           </p>
           <a
             href={activeCert.verifyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block text-sm text-blue-400 hover:text-blue-300 transition-colors border border-white/10 hover:border-white/20 rounded-full px-5 py-2 mt-1"
+            className="inline-block text-sm text-blue-400 hover:text-blue-300 transition-colors border border-white/10 hover:border-white/20 rounded-full px-6 py-2.5"
           >
             {t.certificates.verify}
           </a>
