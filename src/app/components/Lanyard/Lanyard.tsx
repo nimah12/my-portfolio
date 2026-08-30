@@ -21,7 +21,7 @@ const FRONT_UV_RECT = { x: 0, y: 0, w: 0.5, h: 0.755 };
 const BACK_UV_RECT = { x: 0.5, y: 0, w: 0.5, h: 0.757 };
 
 export default function Lanyard({
-  position = [0, 0, 30],
+  position = [0, 0, 22],
   gravity = [0, -40, 0],
   fov = 20,
   transparent = true,
@@ -52,9 +52,9 @@ export default function Lanyard({
   }, []);
 
   const cards = images && images.length ? images : null;
-  const SPACING = 3;
+  const SPACING = 4;
   const cardOffsets = cards
-    ? cards.map((_, i) => (i - (cards.length - 1) / 2) * SPACING - 2)
+    ? cards.map((_, i) => (i - (cards.length - 1) / 2) * SPACING)
     : [0];
 
   return (
@@ -240,7 +240,7 @@ function Band({
         <RigidBody position={[2, 0, 0]} ref={card} {...segmentProps} type={dragged ? 'kinematicPosition' : 'dynamic'}>
           <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
-            scale={2.25}
+            scale={3.2}
             position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
