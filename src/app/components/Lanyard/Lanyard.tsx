@@ -66,6 +66,8 @@ export default function Lanyard({
   // Cards overlap, so occupied width = one card + the gaps between centers.
   const occupiedWidth = CARD_VISUAL_WIDTH + (cards ? cards.length - 1 : 0) * SPACING;
   const totalWidth = occupiedWidth + 1.5;
+  // Horizontal ceiling rail the bands hang from (spans all attachment points).
+  const railLength = (cards ? cards.length - 1 : 0) * SPACING + 2;
 
   return (
     <div className="lanyard-wrapper">
@@ -101,6 +103,11 @@ export default function Lanyard({
                 />
               )}
         </Physics>
+        {/* Horizontal ceiling rail the bands hang from */}
+        <mesh position={[0, 4, 0]} rotation={[0, 0, Math.PI / 2]}>
+          <cylinderGeometry args={[0.06, 0.06, railLength, 16]} />
+          <meshStandardMaterial color="#9ca3af" metalness={0.9} roughness={0.25} />
+        </mesh>
         <Environment blur={0.75}>
           <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
           <Lightformer intensity={3} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
