@@ -3,33 +3,59 @@
 import { useState } from "react";
 import { useApp } from "../providers";
 import ProfileCard from "./ProfileCard";
+import ParticleText from "./ParticleText";
 
 export default function Hero() {
-  const { t } = useApp();
+  const { t, theme } = useApp();
   const [profileOpen, setProfileOpen] = useState(false);
+
+  const isDark = theme === "dark";
+  const particleColor = isDark ? "#ffffff" : "#0f172a";
+  const particleHighlight = isDark ? "#8b5cf6" : "#2563eb";
 
   return (
     <section
       id="hero"
       className="min-h-screen flex flex-col items-center justify-center text-center px-4 scroll-mt-20"
     >
-      <h1 className="text-4xl md:text-6xl font-bold mb-4 animate-fade-up">
-        <span className="text-gray-900 dark:text-white">{t.hero.greetingPre}</span>{" "}
+      <div className="w-full flex flex-col items-center animate-fade-up">
+        <p className="text-xl md:text-2xl text-gray-500 dark:text-gray-400">
+          {t.hero.greetingPre}
+        </p>
+
         <button
           onClick={() => setProfileOpen(true)}
-          className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 underline decoration-dotted underline-offset-8 transition-colors cursor-pointer inline"
           aria-label="Show profile"
+          className="w-full max-w-3xl block cursor-pointer mt-2"
         >
-          Nima Hasani
+          <ParticleText
+            text="Nima Hasani"
+            color={particleColor}
+            highlightColor={particleHighlight}
+            particleSize={2}
+            density={4}
+            scatter={180}
+            gatherDuration={1600}
+            stagger={420}
+            pointerRepel={40}
+            repelRadius={120}
+            idleDrift={0.7}
+            trigger="hover"
+            fontSize="clamp(2.5rem, 11vw, 7rem)"
+            fontWeight={800}
+            fontFamily="inherit"
+            glow
+          />
         </button>
+
         {t.hero.greetingPost && (
-          <span className="text-gray-900 dark:text-white">
-            {" "}
+          <p className="text-xl md:text-2xl text-gray-500 dark:text-gray-400 mt-2">
             {t.hero.greetingPost}
-          </span>
+          </p>
         )}
-      </h1>
-      <p className="text-lg md:text-xl text-gray-500 dark:text-gray-400 max-w-xl animate-fade-up-delay">
+      </div>
+
+      <p className="mt-8 text-lg md:text-xl text-gray-500 dark:text-gray-400 max-w-xl animate-fade-up-delay">
         {t.hero.title}{" "}
         <span dir="ltr" className="text-gray-700 dark:text-gray-300">
           React, Next.js, Node.js
