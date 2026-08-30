@@ -41,19 +41,19 @@ export default function Certificates() {
   return (
     <section
       id="certificates"
-      className="min-h-screen flex flex-col items-center justify-center px-4 py-20 scroll-mt-20"
+      className="px-4 py-24 scroll-mt-20"
     >
       <h2
         ref={titleRef}
-        className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-12 animate-on-scroll"
+        className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-12 text-center animate-on-scroll"
       >
         {t.certificates.title}
       </h2>
 
       <div
         ref={carouselRef}
-        className="w-full max-w-5xl animate-on-scroll"
-        style={{ height: '460px', position: 'relative' }}
+        className="w-full max-w-5xl mx-auto animate-on-scroll"
+        style={{ height: '420px', position: 'relative' }}
       >
         <DepthCarousel
           items={carouselItems}
@@ -75,7 +75,7 @@ export default function Certificates() {
 
       {activeCert && (
         <div
-          className={`w-full max-w-2xl mt-16 px-8 py-8 rounded-2xl bg-black/30 backdrop-blur-xl border border-white/10 text-center animate-on-scroll ${isRtl ? "text-right" : "text-left"}`}
+          className={`w-full max-w-2xl mx-auto mt-10 px-8 py-8 rounded-2xl bg-black/30 backdrop-blur-xl border border-white/10 text-center animate-on-scroll ${isRtl ? "text-right" : "text-left"}`}
           dir={isRtl ? "rtl" : "ltr"}
         >
           <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
