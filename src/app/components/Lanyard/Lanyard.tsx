@@ -18,9 +18,9 @@ const BLANK_PIXEL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 
 // Approximate on-screen width of one card (model half-width ~0.8 * scale).
-const CARD_SCALE = 4.5;
+const CARD_SCALE = 2.8;
 const CARD_VISUAL_WIDTH = 1.6 * CARD_SCALE;
-const SPACING = 1;
+const SPACING = 5;
 const FOV = 20;
 
 const FRONT_UV_RECT = { x: 0, y: 0, w: 0.5, h: 0.755 };
@@ -120,7 +120,7 @@ function FitCamera({ targetWidth, fov }: { targetWidth: number; fov: number }) {
     const aspect = size.width / Math.max(1, size.height);
     const halfFov = (fov * Math.PI) / 180 / 2;
     const zForWidth = targetWidth / 2 / (Math.tan(halfFov) * aspect);
-    const z = Math.max(34, Math.min(60, zForWidth));
+    const z = Math.max(24, Math.min(60, zForWidth));
     camera.position.set(0, 0, z);
     camera.lookAt(0, 2, 0);
     camera.updateProjectionMatrix();
@@ -265,7 +265,7 @@ function Band({
           <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody position={[2, 0, 0]} ref={card} {...segmentProps} type={dragged ? 'kinematicPosition' : 'dynamic'}>
-          <CuboidCollider args={[0.3, 0.5, 0.01]} />
+          <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
             scale={CARD_SCALE}
             position={[0, -1.2, -0.05]}
