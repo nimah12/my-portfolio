@@ -1,17 +1,19 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useApp } from "../providers";
 import { certificates } from "@/data/certificates";
+import DepthCarousel from "./DepthCarousel";
 
 export default function Certificates() {
   const { t, lang } = useApp();
   const isRtl = lang === "fa";
   const titleRef = useRef<HTMLHeadingElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
+  const carouselRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    const els = [titleRef.current, gridRef.current].filter(Boolean);
+    const els = [titleRef.current, carouselRef.current].filter(Boolean);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -29,6 +31,13 @@ export default function Certificates() {
     return () => observer.disconnect();
   }, []);
 
+  const carouselItems = certificates.map((cert) => ({
+    image: cert.image,
+    alt: cert.title[lang],
+  }));
+
+  const activeCert = certificates[activeIndex];
+
   return (
     <section
       id="certificates"
@@ -42,43 +51,52 @@ export default function Certificates() {
       </h2>
 
       <div
-        ref={gridRef}
-        className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 max-w-5xl w-full animate-on-scroll"
+        ref={carouselRef}
+        className="w-full max-w-5xl animate-on-scroll"
+        style={{ height: '460px', position: 'relative' }}
       >
-        {certificates.map((cert, i) => (
-          <div
-            key={cert.title[lang]}
-            className="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:border-gray-400 dark:hover:border-gray-500 hover:scale-[1.02] transition-all duration-300 bg-white dark:bg-transparent"
-            style={{ transitionDelay: `${i * 120}ms` }}
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={cert.image}
-              alt={cert.title[lang]}
-              className="w-full aspect-[16/10] object-cover object-top border-b border-gray-200 dark:border-gray-800"
-            />
-            <div className={`p-6 ${isRtl ? "text-right" : "text-left"}`} dir={isRtl ? "rtl" : "ltr"}>
-              <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
-                <span dir="auto">{cert.title[lang]}</span>
-              </h3>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">
-                {cert.issuer} · {cert.hours} {t.certificates.hours}
-              </p>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mb-4">
-                {cert.instructor}
-              </p>
-              <a
-                href={cert.verifyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-sm text-blue-600 dark:text-blue-400 hover:underline"
-              >
-                {t.certificates.verify}
-              </a>
-            </div>
-          </div>
-        ))}
+        <DepthCarousel
+          items={carouselItems}
+          depth={200}
+          spread={100}
+          tilt={20}
+          tiltDirection="right"
+          perspective={1400}
+          visibleCards={4}
+          falloff={0.2}
+          blur={6}
+          autoplay
+          loop
+          cardWidth={380}
+          cardHeight={240}
+          onChange={(idx) => setActiveIndex(idx)}
+        />
       </div>
+
+      {activeCert && (
+        <div
+          className={`w-full max-w-2xl mt-16 px-8 py-8 rounded-2xl bg-black/30 backdrop-blur-xl border border-white/10 text-center animate-on-scroll ${isRtl ? "text-right" : "text-left"}`}
+          dir={isRtl ? "rtl" : "ltr"}
+        >
+          <h3 className="text-xl md:text-2xl font-bold text-white mb-3">
+            <span dir="auto">{activeCert.title[lang]}</span>
+          </h3>
+          <p className="text-sm text-gray-400 mb-1">
+            {activeCert.issuer} · {activeCert.hours} {t.certificates.hours}
+          </p>
+          <p className="text-sm text-gray-400 mb-4">
+            {activeCert.instructor}
+          </p>
+          <a
+            href={activeCert.verifyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block text-sm text-blue-400 hover:text-blue-300 transition-colors border border-white/10 hover:border-white/20 rounded-full px-6 py-2.5"
+          >
+            {t.certificates.verify}
+          </a>
+        </div>
+      )}
     </section>
   );
 }
