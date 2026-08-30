@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useApp } from "../providers";
 import { certificates } from "@/data/certificates";
 import DepthCarousel from "./DepthCarousel";
 
 export default function Certificates() {
   const { t, lang } = useApp();
+  const isRtl = lang === "fa";
   const titleRef = useRef<HTMLHeadingElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
     const els = [titleRef.current, carouselRef.current].filter(Boolean);
@@ -34,6 +36,8 @@ export default function Certificates() {
     alt: cert.title[lang],
   }));
 
+  const activeCert = certificates[activeIndex];
+
   return (
     <section
       id="certificates"
@@ -49,13 +53,13 @@ export default function Certificates() {
       <div
         ref={carouselRef}
         className="w-full max-w-5xl animate-on-scroll"
-        style={{ height: '500px', position: 'relative' }}
+        style={{ height: '460px', position: 'relative' }}
       >
         <DepthCarousel
           items={carouselItems}
-          depth={220}
-          spread={90}
-          tilt={22}
+          depth={200}
+          spread={100}
+          tilt={20}
           tiltDirection="right"
           perspective={1400}
           visibleCards={4}
@@ -63,10 +67,36 @@ export default function Certificates() {
           blur={6}
           autoplay
           loop
-          cardWidth={300}
-          cardHeight={380}
+          cardWidth={380}
+          cardHeight={240}
+          onChange={(idx) => setActiveIndex(idx)}
         />
       </div>
+
+      {activeCert && (
+        <div
+          className={`w-full max-w-5xl mt-8 px-4 text-center animate-on-scroll ${isRtl ? "text-right" : "text-left"}`}
+          dir={isRtl ? "rtl" : "ltr"}
+        >
+          <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
+            <span dir="auto">{activeCert.title[lang]}</span>
+          </h3>
+          <p className="text-sm text-gray-400 mb-1">
+            {activeCert.issuer} · {activeCert.hours} {t.certificates.hours}
+          </p>
+          <p className="text-sm text-gray-400 mb-3">
+            {activeCert.instructor}
+          </p>
+          <a
+            href={activeCert.verifyUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block text-sm text-blue-400 hover:text-blue-300 transition-colors border border-white/10 hover:border-white/20 rounded-full px-5 py-2 mt-1"
+          >
+            {t.certificates.verify}
+          </a>
+        </div>
+      )}
     </section>
   );
 }
