@@ -262,6 +262,10 @@ function Band({
             </mesh>
             <mesh geometry={nodes.clip.geometry} material={materials.metal} material-roughness={0.3} />
             <mesh geometry={nodes.clamp.geometry} material={materials.metal} />
+            <mesh position={[0, 1.35, 0.03]} rotation={[Math.PI / 2, 0, 0]}>
+              <torusGeometry args={[0.18, 0.04, 16, 32]} />
+              <meshStandardMaterial color="#111827" metalness={0.9} roughness={0.2} />
+            </mesh>
           </group>
         </RigidBody>
       </group>
