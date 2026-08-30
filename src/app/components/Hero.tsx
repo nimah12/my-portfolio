@@ -40,11 +40,11 @@ export default function Hero() {
             pointerRepel={40}
             repelRadius={120}
             idleDrift={0.7}
-            trigger="hover"
+            trigger="mount"
             fontSize="clamp(2.5rem, 11vw, 7rem)"
             fontWeight={800}
             fontFamily="inherit"
-            glow
+            glow={false}
           />
         </button>
 

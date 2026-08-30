@@ -6,6 +6,7 @@ import { certificates } from "@/data/certificates";
 
 export default function Certificates() {
   const { t, lang } = useApp();
+  const isRtl = lang === "fa";
   const titleRef = useRef<HTMLHeadingElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
 
@@ -56,7 +57,7 @@ export default function Certificates() {
               alt={cert.title[lang]}
               className="w-full aspect-[16/10] object-cover object-top border-b border-gray-200 dark:border-gray-800"
             />
-            <div className="p-6">
+            <div className={`p-6 ${isRtl ? "text-right" : "text-left"}`} dir={isRtl ? "rtl" : "ltr"}>
               <h3 className="text-lg font-bold text-gray-900 dark:text-white mb-2">
                 <span dir="auto">{cert.title[lang]}</span>
               </h3>

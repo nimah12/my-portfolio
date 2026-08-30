@@ -3,7 +3,6 @@ export type Certificate = {
   issuer: string;
   hours: number;
   instructor: string;
-  date: string;
   verifyUrl: string;
   image: string;
 };
@@ -17,7 +16,6 @@ export const certificates: Certificate[] = [
     issuer: "Maktabkhooneh",
     hours: 9,
     instructor: "Ehsan Gazar",
-    date: "2026-07-25",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-VSXQ1I/",
     image: "/certificates/react-js-basics.png",
   },
@@ -29,7 +27,6 @@ export const certificates: Certificate[] = [
     issuer: "Maktabkhooneh",
     hours: 10,
     instructor: "Abolfazl Vafadoost",
-    date: "2026-07-24",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-O4FAV4F/",
     image: "/certificates/project-based-css-html-js.png",
   },
@@ -41,7 +38,6 @@ export const certificates: Certificate[] = [
     issuer: "Maktabkhooneh",
     hours: 27,
     instructor: "Amirhosein Delavar",
-    date: "2026-07-25",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-T2XGVF/",
     image: "/certificates/icdl.png",
   },
@@ -53,7 +49,6 @@ export const certificates: Certificate[] = [
     issuer: "Maktabkhooneh",
     hours: 11,
     instructor: "Ehsan Gazar",
-    date: "TODO",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-A1MUMO/",
     image: "/certificates/mk-a1mumo.png",
   },
@@ -65,7 +60,6 @@ export const certificates: Certificate[] = [
     issuer: "Maktabkhooneh",
     hours: 27,
     instructor: "mehdi kohandelpour",
-    date: "TODO",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-AGDYUD/",
     image: "/certificates/mk-agdyud.png",
   },
@@ -77,7 +71,6 @@ export const certificates: Certificate[] = [
     issuer: "Maktabkhooneh",
     hours: 18,
     instructor: "Jadi Mirmirani",
-    date: "TODO",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-FW26MR/",
     image: "/certificates/mk-fw26mr.png",
   },
@@ -89,7 +82,6 @@ export const certificates: Certificate[] = [
     issuer: "Maktabkhooneh",
     hours: 11,
     instructor: "Ehsan Gazar",
-    date: "TODO",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-KMZNSA/",
     image: "/certificates/mk-kmznsa.png",
   },
@@ -101,7 +93,6 @@ export const certificates: Certificate[] = [
     issuer: "Maktabkhooneh",
     hours: 3,
     instructor: "Abolfazl Vafadoost",
-    date: "TODO",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-OUVXY9/",
     image: "/certificates/mk-ouvxy9.png",
   },
