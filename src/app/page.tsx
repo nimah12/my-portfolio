@@ -6,10 +6,12 @@ import Gallery from "./components/Gallery";
 import Projects from "./components/Projects";
 import Certificates from "./components/Certificates";
 import Contact from "./components/Contact";
+import SplashCursor from "./components/SplashCursor";
 
 export default function Home() {
   return (
     <>
+      <SplashCursor />
       <Navbar />
       <main>
         <Hero />
