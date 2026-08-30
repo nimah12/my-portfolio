@@ -6,7 +6,6 @@ import { useGLTF, useTexture, Environment, Lightformer } from '@react-three/drei
 import { BallCollider, CuboidCollider, Physics, RigidBody, useRopeJoint, useSphericalJoint } from '@react-three/rapier';
 import { MeshLineGeometry, MeshLineMaterial } from 'meshline';
 
-// Serve the required binary assets from /public so they load as URLs.
 const cardGLB = '/lanyard/card.glb';
 const lanyard = '/lanyard/lanyard.png';
 
@@ -15,15 +14,9 @@ import './Lanyard.css';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-// 1x1 transparent pixel — lets useTexture be called unconditionally when a
-// front/back image isn't supplied.
 const BLANK_PIXEL =
   'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==';
 
-// The card model's front face is UV-mapped to the LEFT half of the texture
-// atlas and the back face to the RIGHT half (measured from card.glb). Each
-// custom image is composited into its own half so the two faces render
-// independently, aspect-preserving (no stretching).
 const FRONT_UV_RECT = { x: 0, y: 0, w: 0.5, h: 0.755 };
 const BACK_UV_RECT = { x: 0.5, y: 0, w: 0.5, h: 0.757 };
 
@@ -32,6 +25,7 @@ export default function Lanyard({
   gravity = [0, -40, 0],
   fov = 20,
   transparent = true,
+  images = null,
   frontImage = null,
   backImage = null,
   imageFit = 'cover',
@@ -42,6 +36,7 @@ export default function Lanyard({
   gravity?: number[];
   fov?: number;
   transparent?: boolean;
+  images?: string[] | null;
   frontImage?: string | null;
   backImage?: string | null;
   imageFit?: 'cover' | 'contain';
@@ -56,6 +51,12 @@ export default function Lanyard({
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const cards = images && images.length ? images : null;
+  const SPACING = 3;
+  const cardOffsets = cards
+    ? cards.map((_, i) => (i - (cards.length - 1) / 2) * SPACING - 2)
+    : [0];
+
   return (
     <div className="lanyard-wrapper">
       <Canvas
@@ -66,50 +67,42 @@ export default function Lanyard({
       >
         <ambientLight intensity={Math.PI} />
         <Physics gravity={gravity} timeStep={isMobile ? 1 / 30 : 1 / 60}>
-          <Band
-            isMobile={isMobile}
-            frontImage={frontImage}
-            backImage={backImage}
-            imageFit={imageFit}
-            lanyardImage={lanyardImage}
-            lanyardWidth={lanyardWidth}
-          />
+          {cards
+            ? cards.map((src, i) => (
+                <Band
+                  key={i}
+                  offset={cardOffsets[i]}
+                  isMobile={isMobile}
+                  frontImage={src}
+                  imageFit={imageFit}
+                  lanyardImage={lanyardImage}
+                  lanyardWidth={lanyardWidth}
+                />
+              ))
+            : (
+                <Band
+                  isMobile={isMobile}
+                  frontImage={frontImage}
+                  backImage={backImage}
+                  imageFit={imageFit}
+                  lanyardImage={lanyardImage}
+                  lanyardWidth={lanyardWidth}
+                />
+              )}
         </Physics>
         <Environment blur={0.75}>
-          <Lightformer
-            intensity={2}
-            color="white"
-            position={[0, -1, 5]}
-            rotation={[0, 0, Math.PI / 3]}
-            scale={[100, 0.1, 1]}
-          />
-          <Lightformer
-            intensity={3}
-            color="white"
-            position={[-1, -1, 1]}
-            rotation={[0, 0, Math.PI / 3]}
-            scale={[100, 0.1, 1]}
-          />
-          <Lightformer
-            intensity={3}
-            color="white"
-            position={[1, 1, 1]}
-            rotation={[0, 0, Math.PI / 3]}
-            scale={[100, 0.1, 1]}
-          />
-          <Lightformer
-            intensity={10}
-            color="white"
-            position={[-10, 0, 14]}
-            rotation={[0, Math.PI / 2, Math.PI / 3]}
-            scale={[100, 10, 1]}
-          />
+          <Lightformer intensity={2} color="white" position={[0, -1, 5]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+          <Lightformer intensity={3} color="white" position={[-1, -1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+          <Lightformer intensity={3} color="white" position={[1, 1, 1]} rotation={[0, 0, Math.PI / 3]} scale={[100, 0.1, 1]} />
+          <Lightformer intensity={10} color="white" position={[-10, 0, 14]} rotation={[0, Math.PI / 2, Math.PI / 3]} scale={[100, 10, 1]} />
         </Environment>
       </Canvas>
     </div>
   );
 }
+
 function Band({
+  offset = 0,
   maxSpeed = 50,
   minSpeed = 0,
   isMobile = false,
@@ -132,13 +125,9 @@ function Band({
   const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
   const { nodes, materials } = useGLTF(cardGLB);
   const texture = useTexture(lanyardImage || lanyard);
-  // useTexture must be called unconditionally; use a blank pixel when an image
-  // isn't supplied for a given face, then skip compositing it below.
   const frontTex = useTexture(frontImage || BLANK_PIXEL);
   const backTex = useTexture(backImage || BLANK_PIXEL);
 
-  // Composite the front/back images into the card's texture atlas (front = left
-  // half, back = right half). Each image is drawn aspect-preserving (no stretch).
   const cardMap = useMemo(() => {
     const baseMap = materials.base.map;
     if (!frontImage && !backImage) return baseMap;
@@ -151,7 +140,6 @@ function Band({
     canvas.height = H;
     const ctx = canvas.getContext('2d');
     if (!ctx) return baseMap;
-    // Keep the original baked atlas for the card edges and any untouched face.
     ctx.drawImage(baseImg, 0, 0, W, H);
 
     const drawFitted = (img, rect) => {
@@ -238,7 +226,7 @@ function Band({
 
   return (
     <>
-      <group position={[0, 4, 0]}>
+      <group position={[offset, 4, 0]}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
         <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
           <BallCollider args={[0.1]} />

@@ -66,21 +66,8 @@ export default function Gallery() {
       {isMobile ? (
         <ClassicGallery />
       ) : (
-        <div className="w-full max-w-4xl rounded-3xl border border-gray-200 dark:border-gray-800 p-4 sm:p-6 bg-white/40 dark:bg-white/5">
-          <div className="grid grid-cols-2 gap-4">
-            {photos.map((photo, i) => (
-              <div
-                key={photo.src}
-                className="relative h-[300px] sm:h-[360px] rounded-xl overflow-hidden"
-                style={{ transitionDelay: `${i * 120}ms` }}
-              >
-                <Lanyard frontImage={photo.src} />
-                <p className="absolute bottom-2 left-2 right-2 text-white text-xs sm:text-sm font-medium drop-shadow">
-                  <span dir="auto">{t.gallery.captions[i]}</span>
-                </p>
-              </div>
-            ))}
-          </div>
+        <div className="w-full h-[460px]">
+          <Lanyard images={photos.map((p) => p.src)} />
         </div>
       )}
     </section>
