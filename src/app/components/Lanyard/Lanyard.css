@@ -7,6 +7,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transform: scale(1);
-  transform-origin: center;
+  transform: scale(1.35);
+  transform-origin: center center;
 }

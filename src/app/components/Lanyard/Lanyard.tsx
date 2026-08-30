@@ -21,9 +21,9 @@ const FRONT_UV_RECT = { x: 0, y: 0, w: 0.5, h: 0.755 };
 const BACK_UV_RECT = { x: 0.5, y: 0, w: 0.5, h: 0.757 };
 
 export default function Lanyard({
-  position = [0, 0, 20],
-  gravity = [0, -60, 0],
-  fov = 28,
+  position = [0, 0, 30],
+  gravity = [0, -40, 0],
+  fov = 20,
   transparent = true,
   images = null,
   frontImage = null,
@@ -52,7 +52,7 @@ export default function Lanyard({
   }, []);
 
   const cards = images && images.length ? images : null;
-  const SPACING = 4.5;
+  const SPACING = 4;
   const cardOffsets = cards
     ? cards.map((_, i) => (i - (cards.length - 1) / 2) * SPACING)
     : [0];
@@ -122,7 +122,7 @@ function Band({
     ang = new THREE.Vector3(),
     rot = new THREE.Vector3(),
     dir = new THREE.Vector3();
-  const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 1, linearDamping: 1 };
+  const segmentProps = { type: 'dynamic', canSleep: true, colliders: false, angularDamping: 4, linearDamping: 4 };
   const { nodes, materials } = useGLTF(cardGLB);
   const texture = useTexture(lanyardImage || lanyard);
   const frontTex = useTexture(frontImage || BLANK_PIXEL);
@@ -178,12 +178,12 @@ function Band({
   const [dragged, drag] = useState(false);
   const [hovered, hover] = useState(false);
 
-  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 2]);
-  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 2]);
-  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 2]);
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
+  useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
+  useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
   useSphericalJoint(j3, card, [
     [0, 0, 0],
-    [0, 2.2, 0]
+    [0, 1.5, 0]
   ]);
 
   useEffect(() => {
@@ -229,19 +229,19 @@ function Band({
       <group position={[offset, 4, 0]}>
         <RigidBody ref={fixed} {...segmentProps} type="fixed" />
         <RigidBody position={[0.5, 0, 0]} ref={j1} {...segmentProps}>
-          <BallCollider args={[0.3]} />
+          <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody position={[1, 0, 0]} ref={j2} {...segmentProps}>
-          <BallCollider args={[0.3]} />
+          <BallCollider args={[0.1]} />
         </RigidBody>
-        <RigidBody position={[1.5, 0.4, 0]} ref={j3} {...segmentProps}>
-          <BallCollider args={[0.3]} />
+        <RigidBody position={[1.5, 0, 0]} ref={j3} {...segmentProps}>
+          <BallCollider args={[0.1]} />
         </RigidBody>
         <RigidBody position={[2, 0, 0]} ref={card} {...segmentProps} type={dragged ? 'kinematicPosition' : 'dynamic'}>
-          <CuboidCollider args={[1.2, 1.8, 0.1]} />
+          <CuboidCollider args={[0.8, 1.125, 0.01]} />
           <group
-            scale={2.5}
-            position={[0, -0.6, -0.05]}
+            scale={2.25}
+            position={[0, -1.2, -0.05]}
             onPointerOver={() => hover(true)}
             onPointerOut={() => hover(false)}
             onPointerUp={e => (e.target.releasePointerCapture(e.pointerId), drag(false))}
