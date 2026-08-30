@@ -7,10 +7,12 @@ import Projects from "./components/Projects";
 import Certificates from "./components/Certificates";
 import Contact from "./components/Contact";
 import SplashCursorGate from "./components/SplashCursorGate";
+import Background from "./components/Background";
 
 export default function Home() {
   return (
     <>
+      <Background />
       <SplashCursorGate />
       <Navbar />
       <main>
