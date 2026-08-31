@@ -1,0 +1,147 @@
+/* ── Hero اسکرول‌محور ──
+   کاربر در ورود فقط نام را می‌بیند؛ با اسکرول، نام محو/بزرگ می‌شود و
+   معرفی (سلام + عنوان + رزومه) جای آن را می‌گیرد. ارتفاع track توسط JS
+   بر اساس ارتفاع ویوپورت تنظیم می‌شود (۱ ویوپورت اضافه برای سکانس). */
+
+.hero-intro {
+  position: relative;
+  /* مقدار اولیه تا لود JS — دقیق‌شدن ارتفاع بر اساس ویوپورت واقعی در Hero.tsx */
+  height: calc(100vh + 115vh);
+}
+
+/* حالت کاهش حرکت: ارتفاع طبیعی، بدون سکانس */
+.hero--static {
+  height: auto;
+}
+
+.hero-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+/* ── لایه‌ی نام ── */
+.hero-name-layer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-inline: 1rem;
+  will-change: transform, opacity;
+}
+
+.hero-name-button {
+  display: block;
+  width: 100%;
+  max-width: 56rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+/* ── لایه‌ی معرفی — تا شروع اسکرول مخفی است و JS با اسکرول بازش می‌کند ── */
+.hero-intro-layer {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-inline: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+/* ── حالت کاهش حرکت: بدون سکانس اسکرول، همه‌چیز ایستا ── */
+.hero--static .hero-sticky {
+  position: static;
+  min-height: 100vh;
+  height: auto;
+  flex-direction: column;
+  gap: 2.5rem;
+}
+
+.hero--static .hero-name-layer {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.hero--static .hero-intro-layer {
+  position: static;
+  opacity: 1 !important;
+  transform: none !important;
+  pointer-events: auto !important;
+}
+
+.hero--static .hero-scroll-hint {
+  display: none;
+}
+
+/* ── راهنمای اسکرول ── */
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 26px;
+  left: 50%;
+  /* با پراپرتی translate وسط‌چین می‌شود تا transform توسط JS آزاد بماند */
+  translate: -50% 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #9ca3af;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+
+.hero-scroll-hint__mouse {
+  width: 22px;
+  height: 34px;
+  border: 1.5px solid rgba(156, 163, 175, 0.65);
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  padding-top: 6px;
+}
+
+.hero-scroll-hint__wheel {
+  width: 3px;
+  height: 7px;
+  border-radius: 999px;
+  background: #9ca3af;
+  animation: hero-wheel 1.8s ease-in-out infinite;
+}
+
+@keyframes hero-wheel {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  70% {
+    transform: translateY(10px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+
+.hero-scroll-hint__text {
+  font-size: 0.75rem;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-scroll-hint__wheel {
+    animation: none;
+  }
+}

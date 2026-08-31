@@ -8,11 +8,16 @@ export default function SplashCursorGate() {
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
-    const update = () => setEnabled(mq.matches);
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const update = () => setEnabled(mq.matches && !reduced.matches);
     update();
     mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
+    reduced.addEventListener("change", update);
+    return () => {
+      mq.removeEventListener("change", update);
+      reduced.removeEventListener("change", update);
+    };
   }, []);
 
-  return enabled ? <SplashCursor /> : null;
+  return enabled ? <SplashCursor DYE_RESOLUTION={512} SIM_RESOLUTION={64} /> : null;
 }

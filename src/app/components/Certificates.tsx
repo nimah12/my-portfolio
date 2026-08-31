@@ -10,10 +10,11 @@ export default function Certificates() {
   const isRtl = lang === "fa";
   const titleRef = useRef<HTMLHeadingElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
+  const infoRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
   useEffect(() => {
-    const els = [titleRef.current, carouselRef.current].filter(Boolean);
+    const els = [titleRef.current, carouselRef.current, infoRef.current].filter(Boolean);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -41,7 +42,7 @@ export default function Certificates() {
   return (
     <section
       id="certificates"
-      className="px-4 py-24 scroll-mt-20"
+      className="overflow-x-clip px-4 py-24 scroll-mt-20"
     >
       <h2
         ref={titleRef}
@@ -64,7 +65,7 @@ export default function Certificates() {
           perspective={1400}
           visibleCards={4}
           falloff={0.2}
-          blur={6}
+          blur={3}
           autoplay
           loop
           cardWidth={380}
@@ -75,7 +76,8 @@ export default function Certificates() {
 
       {activeCert && (
         <div
-          className={`w-full max-w-2xl mx-auto mt-10 px-8 py-8 rounded-2xl bg-black/30 backdrop-blur-xl border border-white/10 text-center animate-on-scroll ${isRtl ? "text-right" : "text-left"}`}
+          ref={infoRef}
+          className={`w-full max-w-2xl mx-auto mt-10 px-8 py-8 rounded-2xl glass text-center animate-on-scroll ${isRtl ? "text-right" : "text-left"}`}
           dir={isRtl ? "rtl" : "ltr"}
         >
           <h3 className="text-xl md:text-2xl font-bold text-white mb-3">

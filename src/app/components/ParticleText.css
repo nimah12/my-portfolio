@@ -5,7 +5,7 @@
   height: 100%;
   min-height: 240px;
   overflow: hidden;
-  touch-action: none;
+  touch-action: pan-y; /* پن عمودی صفحه را نبند — اسکرول موبایل روی نام کار کند */
   isolation: isolate;
 }
 

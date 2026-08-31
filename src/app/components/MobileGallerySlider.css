@@ -1,0 +1,203 @@
+/* ── اسلایدر موبایل «پشت صحنه» — دسته‌ی پولاروید ── */
+
+.mgs {
+  width: 100%;
+  max-width: 340px;
+  margin-inline: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  outline: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.mgs:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 8px;
+  border-radius: 20px;
+}
+
+.mgs__deck {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  animation: mgs-float 7s ease-in-out infinite;
+}
+
+@keyframes mgs-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+.mgs__card {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  background: linear-gradient(160deg, #fdfdfb 0%, #f3f1ea 100%);
+  border-radius: 10px;
+  padding: 10px 10px 24px;
+  box-shadow:
+    0 24px 48px rgba(0, 0, 0, 0.5),
+    0 4px 12px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+  transition:
+    transform 480ms cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 480ms ease,
+    filter 480ms ease;
+  will-change: transform;
+  touch-action: pan-y;
+}
+
+.mgs__card--top {
+  z-index: 10;
+  cursor: grab;
+}
+
+.mgs__card--dragging {
+  cursor: grabbing;
+}
+
+.mgs__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+  pointer-events: none;
+  filter: saturate(0.92) contrast(1.02);
+}
+
+/* نوار چسبان بالای پولاروید — فقط روی کارتِ بالا رندر می‌شود */
+.mgs__tape {
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  width: 88px;
+  height: 26px;
+  transform: translateX(-50%) rotate(-3deg);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.55),
+    rgba(255, 255, 255, 0.3)
+  );
+  border-inline: 2px dashed rgba(255, 255, 255, 0.4);
+  border-radius: 3px;
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.mgs__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 30;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  background: rgba(12, 12, 22, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  transition:
+    background 0.25s ease,
+    transform 0.15s ease;
+}
+
+.mgs__arrow:hover {
+  background: rgba(12, 12, 22, 0.78);
+}
+
+.mgs__arrow:active {
+  transform: translateY(-50%) scale(0.92);
+}
+
+.mgs__arrow--prev {
+  left: -10px;
+}
+
+.mgs__arrow--next {
+  right: -10px;
+}
+
+.mgs__meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.mgs__counter {
+  margin: 0;
+  color: #9ca3af;
+  font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.04em;
+}
+
+.mgs__dots {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.mgs__dot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.22);
+  cursor: pointer;
+  transition:
+    background 0.3s ease,
+    width 0.3s ease;
+}
+
+.mgs__dot:hover {
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.mgs__dot.is-active {
+  width: 24px;
+  background: linear-gradient(90deg, #8b5cf6, #6366f1);
+}
+
+.mgs__caption {
+  margin: 0;
+  color: #d1d5db;
+  font-size: 0.95rem;
+  text-align: center;
+  min-height: 1.6em;
+}
+
+.mgs__hint {
+  margin: -6px 0 0;
+  color: #6b7280;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mgs__deck {
+    animation: none;
+  }
+  .mgs__card {
+    transition: none;
+  }
+}

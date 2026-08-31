@@ -77,9 +77,11 @@ export default function Contact() {
       <form
         ref={formRef}
         onSubmit={handleSubmit}
-        className="w-full max-w-md flex flex-col gap-4 animate-on-scroll"
+        className="glass w-full max-w-md flex flex-col gap-4 p-8 rounded-3xl animate-on-scroll"
       >
-        {/* فیلد هانی‌پات: از دید کاربران مخفی است، ربات‌ها آن را پر می‌کنند */}
+        {/* فیلد هانی‌پات: از دید کاربران مخفی است، ربات‌ها آن را پر می‌کنند
+            نکته: fixed و اندازه صفر — به‌جای absolute با left منفی بزرگ؛
+            چون در حالت RTL مقدار left منفی بزرگ باعث اسکرول افقی می‌شد */}
         <input
           type="text"
           name="website"
@@ -88,7 +90,7 @@ export default function Contact() {
           aria-hidden="true"
           value={website}
           onChange={(e) => setWebsite(e.target.value)}
-          className="absolute -left-[9999px] h-0 w-0 opacity-0"
+          className="pointer-events-none fixed left-0 top-0 -z-10 h-0 w-0 opacity-0"
         />
 
         <input
@@ -97,7 +99,7 @@ export default function Contact() {
           value={name}
           onChange={(e) => setName(e.target.value)}
           required
-          className="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none focus:border-gray-500 dark:focus:border-gray-500 transition-colors"
+          className="glass-soft rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 outline-none focus:border-white/60 dark:focus:border-white/30 transition-colors"
         />
         <input
           type="email"
@@ -105,7 +107,7 @@ export default function Contact() {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
-          className="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none focus:border-gray-500 dark:focus:border-gray-500 transition-colors"
+          className="glass-soft rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 outline-none focus:border-white/60 dark:focus:border-white/30 transition-colors"
         />
         <textarea
           placeholder={t.contact.message}
@@ -113,12 +115,12 @@ export default function Contact() {
           onChange={(e) => setMessage(e.target.value)}
           required
           rows={5}
-          className="bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700 rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 outline-none focus:border-gray-500 dark:focus:border-gray-500 transition-colors"
+          className="glass-soft rounded-lg px-4 py-3 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 outline-none focus:border-white/60 dark:focus:border-white/30 transition-colors"
         />
         <button
           type="submit"
           disabled={status === "sending"}
-          className="bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-bold rounded-lg px-4 py-3 hover:bg-gray-700 dark:hover:bg-gray-200 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 disabled:opacity-50"
+          className="bg-gray-900/85 dark:bg-white/90 text-white dark:text-gray-900 font-bold rounded-lg px-4 py-3 hover:bg-gray-800 dark:hover:bg-white hover:scale-[1.02] active:scale-[0.98] transition-all duration-200 disabled:opacity-50"
         >
           {status === "sending" ? t.contact.sending : t.contact.send}
         </button>

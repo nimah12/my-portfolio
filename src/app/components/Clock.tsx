@@ -34,7 +34,7 @@ export default function Clock() {
     return (
       <div className="text-gray-500 dark:text-gray-400 text-sm text-right leading-tight">
         <div>&nbsp;</div>
-        <div>&nbsp;</div>
+        <div className="hidden sm:block">&nbsp;</div>
       </div>
     );
   }
@@ -60,7 +60,8 @@ export default function Clock() {
       <div className="font-semibold text-gray-700 dark:text-gray-300" dir="ltr">
         {time}
       </div>
-      <div className="text-xs">{date}</div>
+      {/* تاریخ فقط از sm به بالا — در موبایل جای نوار بالا را تنگ نمی‌کند */}
+      <div className="hidden text-xs sm:block">{date}</div>
     </div>
   );
 }

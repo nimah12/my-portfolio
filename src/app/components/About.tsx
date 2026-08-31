@@ -30,7 +30,10 @@ export default function About() {
       id="about"
       className="min-h-screen flex flex-col items-center justify-center px-4 py-20 scroll-mt-20"
     >
-      <div ref={ref} className="max-w-2xl text-center animate-on-scroll">
+      <div
+        ref={ref}
+        className="glass w-full max-w-2xl text-center px-8 py-10 md:px-12 md:py-14 rounded-3xl animate-on-scroll"
+      >
         <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
           {t.about.title}
         </h2>

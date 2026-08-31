@@ -17,7 +17,7 @@ export const certificates: Certificate[] = [
     hours: 9,
     instructor: "Ehsan Gazar",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-VSXQ1I/",
-    image: "/certificates/react-js-basics.png",
+    image: "/certificates/react-js-basics.webp",
   },
   {
     title: {
@@ -28,7 +28,7 @@ export const certificates: Certificate[] = [
     hours: 10,
     instructor: "Abolfazl Vafadoost",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-O4FAV4F/",
-    image: "/certificates/project-based-css-html-js.png",
+    image: "/certificates/project-based-css-html-js.webp",
   },
   {
     title: {
@@ -39,7 +39,7 @@ export const certificates: Certificate[] = [
     hours: 27,
     instructor: "Amirhosein Delavar",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-T2XGVF/",
-    image: "/certificates/icdl.png",
+    image: "/certificates/icdl.webp",
   },
   {
     title: {
@@ -50,7 +50,7 @@ export const certificates: Certificate[] = [
     hours: 11,
     instructor: "Ehsan Gazar",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-A1MUMO/",
-    image: "/certificates/mk-a1mumo.png",
+    image: "/certificates/mk-a1mumo.webp",
   },
   {
     title: {
@@ -61,7 +61,7 @@ export const certificates: Certificate[] = [
     hours: 27,
     instructor: "mehdi kohandelpour",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-AGDYUD/",
-    image: "/certificates/mk-agdyud.png",
+    image: "/certificates/mk-agdyud.webp",
   },
   {
     title: {
@@ -72,7 +72,7 @@ export const certificates: Certificate[] = [
     hours: 18,
     instructor: "Jadi Mirmirani",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-FW26MR/",
-    image: "/certificates/mk-fw26mr.png",
+    image: "/certificates/mk-fw26mr.webp",
   },
   {
     title: {
@@ -83,7 +83,7 @@ export const certificates: Certificate[] = [
     hours: 11,
     instructor: "Ehsan Gazar",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-KMZNSA/",
-    image: "/certificates/mk-kmznsa.png",
+    image: "/certificates/mk-kmznsa.webp",
   },
   {
     title: {
@@ -94,6 +94,6 @@ export const certificates: Certificate[] = [
     hours: 3,
     instructor: "Abolfazl Vafadoost",
     verifyUrl: "https://maktabkhooneh.org/certificates/MK-OUVXY9/",
-    image: "/certificates/mk-ouvxy9.png",
+    image: "/certificates/mk-ouvxy9.webp",
   },
 ];

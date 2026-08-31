@@ -18,7 +18,7 @@ function getClientIp(request: Request): string {
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
   const recent = (requests.get(ip) ?? []).filter(
-    (t) => now - t < RATE_LIMIT_WINDOW_MS
+    (t) => now - t < RATE_LIMIT_WINDOW_MS,
   );
 
   if (recent.length >= RATE_LIMIT_MAX) {
@@ -29,10 +29,13 @@ function isRateLimited(ip: string): boolean {
   recent.push(now);
   requests.set(ip, recent);
 
-  // تمیزکاری ساده تا Map بی‌حد رشد نکند
+  // تمیزکاری ساده تا Map بی‌حد رشد نکند —
+  // ورودی‌هایی که همه‌ی زمان‌هایشان منقضی شده حذف می‌شوند
   if (requests.size > 1000) {
     for (const [key, times] of requests) {
-      if (times.length === 0) requests.delete(key);
+      const stillRecent = times.filter((t) => now - t < RATE_LIMIT_WINDOW_MS);
+      if (stillRecent.length === 0) requests.delete(key);
+      else requests.set(key, stillRecent);
     }
   }
 
@@ -53,7 +56,7 @@ function escapeHtml(value: string): string {
 function buildContactEmailHtml(
   name: string,
   email: string,
-  message: string
+  message: string,
 ): string {
   const safeName = escapeHtml(name);
   const safeEmail = escapeHtml(email);
@@ -110,8 +113,24 @@ function buildContactEmailHtml(
 }
 
 export async function POST(request: Request) {
-  const body = await request.json();
-  const { name, email, message, website } = body;
+  // بدنه‌ی درخواست ممکن است JSON نامعتبر باشد؛ بدون این try/catch
+  // یک خطای ۵۰۰ خام به کلاینت برمی‌گشت.
+  let body: unknown;
+  try {
+    body = await request.json();
+  } catch {
+    return NextResponse.json(
+      { error: "درخواست نامعتبر است." },
+      { status: 400 },
+    );
+  }
+
+  const { name, email, message, website } = (body ?? {}) as {
+    name?: unknown;
+    email?: unknown;
+    message?: unknown;
+    website?: unknown;
+  };
 
   // هانی‌پات: اگر ربات فیلد مخفی «website» را پر کرده باشد، بدون ارسال
   // ایمیل جواب موفقیت‌آمیز برمی‌گردانیم تا ربات متوجه نشود.
@@ -127,7 +146,20 @@ export async function POST(request: Request) {
     );
   }
 
-  if (!name || !email || !message) {
+  // اعتبارسنجی نوع ورودی‌ها — ورودی غیر رشته‌ای (مثلاً عدد یا آبجکت)
+  // قبلاً باعث crash در escapeHtml و خطای ۵۰۰ می‌شد.
+  if (
+    typeof name !== "string" ||
+    typeof email !== "string" ||
+    typeof message !== "string"
+  ) {
+    return NextResponse.json(
+      { error: "لطفاً همه فیلدها را پر کنید." },
+      { status: 400 },
+    );
+  }
+
+  if (!name.trim() || !email.trim() || !message.trim()) {
     return NextResponse.json(
       { error: "لطفاً همه فیلدها را پر کنید." },
       { status: 400 },

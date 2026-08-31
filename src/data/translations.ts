@@ -14,6 +14,7 @@ export const translations = {
       greetingPost: "هستم",
       title: "توسعه‌دهنده فول‌استک | متخصص",
       downloadResume: "دانلود رزومه",
+      scrollHint: "برای ادامه اسکرول کنید",
     },
     about: {
       title: "درباره من",
@@ -28,6 +29,7 @@ export const translations = {
       subtitle: "لحظاتی از محیط کار و ساخت پروژه‌ها",
       lightbox: "نمایشگر عکس",
       openImage: "باز کردن عکس",
+      swipeHint: "کارت را بکشید تا عکس بعدی را ببینید",
       captions: [
         "در حال حل باگ با تیم",
         "در حال فکر کردن به راه‌حل",
@@ -72,6 +74,7 @@ export const translations = {
       greetingPost: "",
       title: "Full-Stack Developer | Expert in",
       downloadResume: "Download Resume",
+      scrollHint: "Scroll to explore",
     },
     about: {
       title: "About Me",
@@ -86,6 +89,7 @@ export const translations = {
       subtitle: "A few moments from where the projects get built",
       lightbox: "Image lightbox",
       openImage: "Open image",
+      swipeHint: "Drag the card to see the next photo",
       captions: [
         "Debugging with the team",
         "Thinking through a solution",
