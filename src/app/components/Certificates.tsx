@@ -42,7 +42,7 @@ export default function Certificates() {
   return (
     <section
       id="certificates"
-      className="px-4 py-24 scroll-mt-20"
+      className="overflow-x-clip px-4 py-24 scroll-mt-20"
     >
       <h2
         ref={titleRef}

@@ -79,7 +79,9 @@ export default function Contact() {
         onSubmit={handleSubmit}
         className="glass w-full max-w-md flex flex-col gap-4 p-8 rounded-3xl animate-on-scroll"
       >
-        {/* فیلد هانی‌پات: از دید کاربران مخفی است، ربات‌ها آن را پر می‌کنند */}
+        {/* فیلد هانی‌پات: از دید کاربران مخفی است، ربات‌ها آن را پر می‌کنند
+            نکته: fixed و اندازه صفر — به‌جای absolute با left منفی بزرگ؛
+            چون در حالت RTL مقدار left منفی بزرگ باعث اسکرول افقی می‌شد */}
         <input
           type="text"
           name="website"
@@ -88,7 +90,7 @@ export default function Contact() {
           aria-hidden="true"
           value={website}
           onChange={(e) => setWebsite(e.target.value)}
-          className="absolute -left-[9999px] h-0 w-0 opacity-0"
+          className="pointer-events-none fixed left-0 top-0 -z-10 h-0 w-0 opacity-0"
         />
 
         <input
