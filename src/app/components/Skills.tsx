@@ -55,11 +55,10 @@ export default function Skills() {
           ref={gridRef}
           className="flex flex-wrap justify-center gap-4 max-w-2xl animate-on-scroll"
         >
-          {skills.map((skill, i) => (
+          {skills.map((skill) => (
             <span
               key={skill}
-              className="glass-soft px-5 py-2 rounded-full text-gray-700 dark:text-gray-200 text-sm md:text-base cursor-default hover:bg-white/60 dark:hover:bg-white/15 hover:scale-110 transition-all duration-300"
-              style={{ transitionDelay: `${i * 80}ms` }}
+              className="glass-soft px-5 py-2 rounded-full text-gray-700 dark:text-gray-200 text-sm md:text-base cursor-default hover:bg-white/60 dark:hover:bg-white/15 hover:border-violet-500/50 dark:hover:border-violet-400/50 hover:-translate-y-1 hover:scale-105 hover:shadow-lg hover:shadow-violet-500/20 transition-all duration-300"
             >
               {skill}
             </span>

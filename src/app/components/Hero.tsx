@@ -215,11 +215,11 @@ export default function Hero() {
           <a
             href="/resume.pdf"
             download
-            className="mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-full border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white hover:border-gray-900 dark:hover:border-white hover:scale-105 transition-all duration-300 text-sm font-medium"
+            className="group mt-8 inline-flex items-center gap-2 px-6 py-3 rounded-full border border-gray-300 dark:border-gray-700 text-gray-900 dark:text-white hover:border-violet-500/70 dark:hover:border-violet-400/70 hover:bg-violet-500/10 hover:shadow-lg hover:shadow-violet-500/25 hover:-translate-y-1 hover:scale-105 transition-all duration-300 text-sm font-medium"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="w-4 h-4"
+              className="w-4 h-4 group-hover:animate-bounce motion-reduce:animate-none"
               viewBox="0 0 24 24"
               fill="none"
               stroke="currentColor"
