@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { useApp } from "../providers";
-import ClassicGallery from "./ClassicGallery";
+import MobileGallerySlider from "./MobileGallerySlider";
 
 const Lanyard = dynamic(() => import("./Lanyard/Lanyard"), { ssr: false });
 
@@ -43,7 +43,7 @@ export default function Gallery() {
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.15 },
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -65,7 +65,7 @@ export default function Gallery() {
         </div>
 
         {isMobile ? (
-          <ClassicGallery />
+          <MobileGallerySlider />
         ) : (
           <div className="w-full h-[80vh] min-h-[560px]">
             <Lanyard images={photos.map((p) => p.src)} />

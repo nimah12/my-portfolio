@@ -25,13 +25,13 @@ export default function Hero() {
         <button
           onClick={() => setProfileOpen(true)}
           aria-label="Show profile"
-          className="w-full max-w-3xl block cursor-pointer mt-2"
+          className="w-full max-w-4xl block cursor-pointer mt-2"
         >
           <ParticleText
             text="Nima Hasani"
             color={particleColor}
             highlightColor={particleHighlight}
-            particleSize={2}
+            particleSize={2.5}
             density={4}
             scatter={180}
             gatherDuration={1600}
@@ -40,7 +40,7 @@ export default function Hero() {
             repelRadius={120}
             idleDrift={0.7}
             trigger="mount"
-            fontSize="clamp(2.5rem, 11vw, 7rem)"
+            fontSize="clamp(3rem, 14vw, 9rem)"
             fontWeight={800}
             fontFamily="inherit"
             glow={false}
