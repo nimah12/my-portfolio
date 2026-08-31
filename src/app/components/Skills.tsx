@@ -58,7 +58,7 @@ export default function Skills() {
           {skills.map((skill) => (
             <span
               key={skill}
-              className="glass-soft px-5 py-2 rounded-full text-gray-700 dark:text-gray-200 text-sm md:text-base cursor-default hover:bg-white/60 dark:hover:bg-white/15 hover:border-violet-500/50 dark:hover:border-violet-400/50 hover:-translate-y-1 hover:scale-105 hover:shadow-lg hover:shadow-violet-500/20 transition-all duration-300"
+              className="inline-block glass-soft px-5 py-2 rounded-full text-gray-700 dark:text-gray-200 text-sm md:text-base cursor-default hover:bg-white/80 dark:hover:bg-white/20 hover:border-violet-500/60 dark:hover:border-violet-400/60 hover:-translate-y-1 hover:scale-105 hover:shadow-xl hover:shadow-violet-500/25 hover:text-violet-600 dark:hover:text-violet-300 transition-all duration-300"
             >
               {skill}
             </span>
