@@ -129,7 +129,7 @@ export default function ClassicGallery() {
               }
             }}
             aria-label={`${t.gallery.captions[i]} — ${t.gallery.openImage}`}
-            className="group relative aspect-[4/5] rounded-xl overflow-hidden border border-gray-200 dark:border-gray-800 hover:border-gray-400 dark:hover:border-gray-500 transition-all duration-300 cursor-pointer focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2"
+            className="group relative aspect-[4/5] rounded-xl overflow-hidden glass-soft hover:border-white/50 dark:hover:border-white/25 transition-all duration-300 cursor-pointer focus-visible:outline-2 focus-visible:outline-blue-500 focus-visible:outline-offset-2"
             style={{ transitionDelay: `${i * 120}ms` }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}

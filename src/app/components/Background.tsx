@@ -17,6 +17,11 @@ export default function Background() {
         brightness={2}
         dpr={1}
       />
+      <div className="fx-orbs">
+        <span className="fx-orb fx-orb--1" />
+        <span className="fx-orb fx-orb--2" />
+        <span className="fx-orb fx-orb--3" />
+      </div>
     </div>
   );
 }

@@ -77,7 +77,7 @@ export default function Certificates() {
       {activeCert && (
         <div
           ref={infoRef}
-          className={`w-full max-w-2xl mx-auto mt-10 px-8 py-8 rounded-2xl bg-black/30 backdrop-blur-xl border border-white/10 text-center animate-on-scroll ${isRtl ? "text-right" : "text-left"}`}
+          className={`w-full max-w-2xl mx-auto mt-10 px-8 py-8 rounded-2xl glass text-center animate-on-scroll ${isRtl ? "text-right" : "text-left"}`}
           dir={isRtl ? "rtl" : "ltr"}
         >
           <h3 className="text-xl md:text-2xl font-bold text-white mb-3">

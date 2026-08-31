@@ -54,22 +54,24 @@ export default function Gallery() {
       id="gallery"
       className="flex flex-col items-center justify-center px-4 py-20 scroll-mt-20"
     >
-      <div ref={titleRef} className="text-center mb-12 animate-on-scroll">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
-          {t.gallery.title}
-        </h2>
-        <p className="text-gray-500 dark:text-gray-400">
-          <span dir="auto">{t.gallery.subtitle}</span>
-        </p>
-      </div>
-
-      {isMobile ? (
-        <ClassicGallery />
-      ) : (
-        <div className="w-full h-[80vh] min-h-[560px]">
-          <Lanyard images={photos.map((p) => p.src)} />
+      <div className="glass w-full max-w-6xl px-6 py-10 md:px-10 rounded-3xl">
+        <div ref={titleRef} className="text-center mb-12 animate-on-scroll">
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-3">
+            {t.gallery.title}
+          </h2>
+          <p className="text-gray-500 dark:text-gray-400">
+            <span dir="auto">{t.gallery.subtitle}</span>
+          </p>
         </div>
-      )}
+
+        {isMobile ? (
+          <ClassicGallery />
+        ) : (
+          <div className="w-full h-[80vh] min-h-[560px]">
+            <Lanyard images={photos.map((p) => p.src)} />
+          </div>
+        )}
+      </div>
     </section>
   );
 }

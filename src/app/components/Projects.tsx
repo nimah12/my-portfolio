@@ -47,7 +47,7 @@ export default function Projects() {
         {projects.map((project, i) => (
           <div
             key={project.title[lang]}
-            className="border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden hover:border-gray-400 dark:hover:border-gray-500 hover:scale-[1.02] transition-all duration-300 bg-white dark:bg-transparent"
+            className="glass rounded-2xl overflow-hidden hover:scale-[1.02] transition-all duration-300"
             style={{ transitionDelay: `${i * 120}ms` }}
           >
             {project.image && (
@@ -69,7 +69,7 @@ export default function Projects() {
                 {project.tech.map((tech) => (
                   <span
                     key={tech}
-                    className="text-xs px-3 py-1 rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300"
+                    className="glass-soft text-xs px-3 py-1 rounded-full text-gray-700 dark:text-gray-200"
                   >
                     {tech}
                   </span>
