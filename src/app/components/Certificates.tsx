@@ -65,7 +65,7 @@ export default function Certificates() {
           perspective={1400}
           visibleCards={4}
           falloff={0.2}
-          blur={4}
+          blur={3}
           autoplay
           loop
           cardWidth={380}

@@ -182,7 +182,13 @@ const DepthCarousel = ({
 
       el.style.transform = `translate(-50%, -50%) scale(${sc}) translateX(${tx.toFixed(2)}px) translateZ(${tz.toFixed(2)}px) rotateY(${ry.toFixed(3)}deg)`;
       el.style.opacity = opacity.toFixed(3);
-      el.style.filter = `brightness(${brightness.toFixed(3)}) blur(${blurPx.toFixed(2)}px)`;
+      el.style.visibility = shown ? "visible" : "hidden";
+      // فقط کارت‌های عقبی فیلتر می‌گیرند؛ کارت جلو «none» است                   
+      const needsFilter = back > 0 && (brightness < 0.998 || blurPx > 0.05);
+      el.style.filter =
+        needsFilter
+          ? `brightness(${brightness.toFixed(3)}) blur(${blurPx.toFixed(2)}px)`
+          : "none";
       el.style.zIndex = String(zi);
       el.style.pointerEvents = shown && opacity > 0.05 ? "auto" : "none";
 
@@ -393,7 +399,7 @@ const DepthCarousel = ({
       stop();
       autoTimerRef.current = window.setInterval(
         () => {
-          if (visible && !hovered && !focused) navigateBy(1);
+          if (visible && !document.hidden && !hovered && !focused) navigateBy(1);
         },
         Math.max(cfgRef.current.autoplayDelay as number, 600),
       );
