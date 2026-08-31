@@ -15,6 +15,15 @@ export const translations = {
       title: "توسعه‌دهنده فول‌استک | متخصص",
       downloadResume: "دانلود رزومه",
     },
+    showcase: {
+      title: "از ایده تا اجرا",
+      scrollHint: "اسکرول کنید",
+      overlayTitle: "محصولی می‌سازم که واقعاً کار می‌کند",
+      overlayText:
+        "از طراحی رابط کاربری تا دیتابیس، API و دیپلوی — همه‌ی مسیر را خودم می‌سازم.",
+      cta: "بیشتر بدانید",
+      alt: "فضای کار من هنگام ساخت پروژه‌ها",
+    },
     about: {
       title: "درباره من",
       p1: "من نیما حسنی هستم، توسعه‌دهنده فول‌استک با تمرکز بر React، Next.js، Node.js و JavaScript. تجربه‌ی من فراتر از دانش تئوری است؛ چند پروژه‌ی واقعی را به‌صورت مستقل و به‌طور کامل توسعه داده‌ام — از طراحی رابط کاربری تا اتصال به دیتابیس، ساخت API و دیپلوی نهایی.",
@@ -73,6 +82,15 @@ export const translations = {
       greetingPost: "",
       title: "Full-Stack Developer | Expert in",
       downloadResume: "Download Resume",
+    },
+    showcase: {
+      title: "From idea to launch",
+      scrollHint: "Scroll",
+      overlayTitle: "I build products that actually work",
+      overlayText:
+        "From UI design to database, APIs and deployment — I own the whole journey.",
+      cta: "Learn more",
+      alt: "My workspace while building projects",
     },
     about: {
       title: "About Me",
