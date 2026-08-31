@@ -55,6 +55,8 @@ export default function Projects() {
               <img
                 src={project.image}
                 alt={project.title[lang]}
+                loading="lazy"
+                decoding="async"
                 className="w-full aspect-[16/10] object-cover object-top border-b border-gray-200 dark:border-gray-800"
               />
             )}

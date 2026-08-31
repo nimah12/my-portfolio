@@ -6,6 +6,17 @@ const nextConfig: NextConfig = {
   turbopack: {
     root: process.cwd(),
   },
+  // کش طولانی‌مدت برای تصاویر پروژه (فایل‌هایی که با نام ثابت تغییر نمی‌کنند)
+  async headers() {
+    return [
+      {
+        source: "/projects/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
