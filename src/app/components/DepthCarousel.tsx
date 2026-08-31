@@ -379,8 +379,12 @@ const DepthCarousel = ({
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (!autoplay || reducedRef.current || count < 2) return;
     const root = rootRef.current;
+    if (!root) return;
+
     let hovered = false;
     let focused = false;
+    let visible = true;
+
     const stop = () => {
       if (autoTimerRef.current) clearInterval(autoTimerRef.current);
       autoTimerRef.current = null;
@@ -389,7 +393,7 @@ const DepthCarousel = ({
       stop();
       autoTimerRef.current = window.setInterval(
         () => {
-          if (!hovered && !focused) navigateBy(1);
+          if (visible && !hovered && !focused) navigateBy(1);
         },
         Math.max(cfgRef.current.autoplayDelay as number, 600),
       );
@@ -406,17 +410,31 @@ const DepthCarousel = ({
     const onFocusOut = () => {
       focused = false;
     };
-    root?.addEventListener("mouseenter", onEnter);
-    root?.addEventListener("mouseleave", onLeave);
-    root?.addEventListener("focusin", onFocusIn);
-    root?.addEventListener("focusout", onFocusOut);
-    start();
+    root.addEventListener("mouseenter", onEnter);
+    root.addEventListener("mouseleave", onLeave);
+    root.addEventListener("focusin", onFocusIn);
+    root.addEventListener("focusout", onFocusOut);
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        visible = entries[0]?.isIntersecting || false;
+        if (visible) {
+          start();
+        } else {
+          stop();
+        }
+      },
+      { threshold: 0 },
+    );
+    io.observe(root);
+
     return () => {
       stop();
-      root?.removeEventListener("mouseenter", onEnter);
-      root?.removeEventListener("mouseleave", onLeave);
-      root?.removeEventListener("focusin", onFocusIn);
-      root?.removeEventListener("focusout", onFocusOut);
+      io.disconnect();
+      root.removeEventListener("mouseenter", onEnter);
+      root.removeEventListener("mouseleave", onLeave);
+      root.removeEventListener("focusin", onFocusIn);
+      root.removeEventListener("focusout", onFocusOut);
     };
   }, [autoplay, autoplayDelay, count, navigateBy]);
 
@@ -483,6 +501,8 @@ const DepthCarousel = ({
               className="depth-carousel__img"
               src={item.image}
               alt={item.alt || ""}
+              loading="lazy"
+              decoding="async"
               draggable={false}
             />
             <span
