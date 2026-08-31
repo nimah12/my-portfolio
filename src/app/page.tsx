@@ -1,6 +1,5 @@
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import ScrollShowcase from "./components/ScrollShowcase";
 import About from "./components/About";
 import Skills from "./components/Skills";
 import Gallery from "./components/Gallery";
@@ -18,7 +17,6 @@ export default function Home() {
       <Navbar />
       <main>
         <Hero />
-        <ScrollShowcase />
         <About />
         <Skills />
         <Gallery />
