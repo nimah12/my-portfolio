@@ -739,7 +739,18 @@ function SplashCursor({
     updateKeywords();
     initFramebuffers();
     let lastUpdateTime = Date.now();
+    let lastInputTime = Date.now();
     let colorUpdateTimer = 0.0;
+
+    // فقط وقتی ماوس فعال است شبیه‌سازی اجرا شود تا بار پردازنده گرافیکی
+    // در زمان بیکاری کاهش یابد.
+    const IDLE_MS = 1500;
+    const wake = () => {
+      lastInputTime = Date.now();
+      if (animationFrameId.current == null) {
+        animationFrameId.current = requestAnimationFrame(updateFrame);
+      }
+    };
 
     function updateFrame() {
       if (!isActive) return;
@@ -749,7 +760,11 @@ function SplashCursor({
       applyInputs();
       step(dt);
       render(null);
-      animationFrameId.current = requestAnimationFrame(updateFrame);
+      if (Date.now() - lastInputTime < IDLE_MS) {
+        animationFrameId.current = requestAnimationFrame(updateFrame);
+      } else {
+        animationFrameId.current = null;
+      }
     }
 
     function calcDeltaTime() {
@@ -1044,6 +1059,7 @@ function SplashCursor({
     }
 
     function handleMouseDown(e: MouseEvent) {
+      wake();
       const pointer = pointers[0];
       const posX = scaleByPixelRatio(e.clientX);
       const posY = scaleByPixelRatio(e.clientY);
@@ -1053,6 +1069,7 @@ function SplashCursor({
 
     let firstMouseMoveHandled = false;
     function handleMouseMove(e: MouseEvent) {
+      wake();
       const pointer = pointers[0];
       const posX = scaleByPixelRatio(e.clientX);
       const posY = scaleByPixelRatio(e.clientY);
@@ -1066,6 +1083,7 @@ function SplashCursor({
     }
 
     function handleTouchStart(e: TouchEvent) {
+      wake();
       const touches = e.targetTouches;
       const pointer = pointers[0];
       for (let i = 0; i < touches.length; i++) {
@@ -1076,6 +1094,7 @@ function SplashCursor({
     }
 
     function handleTouchMove(e: TouchEvent) {
+      wake();
       const touches = e.targetTouches;
       const pointer = pointers[0];
       for (let i = 0; i < touches.length; i++) {

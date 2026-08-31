@@ -14,5 +14,5 @@ export default function SplashCursorGate() {
     return () => mq.removeEventListener("change", update);
   }, []);
 
-  return enabled ? <SplashCursor /> : null;
+  return enabled ? <SplashCursor DYE_RESOLUTION={1024} SIM_RESOLUTION={64} /> : null;
 }
